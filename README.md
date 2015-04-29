@@ -9,13 +9,13 @@ Provide a xml/json that collects business process execution.
 * Process coordination, etc.
 
 
-##  Works done
+##  Works performed
   * Definition of XML, using as a basis BPMN. See businessProcessAudit.xsd for a description of xml  
   * Created a mediator for wso2 esb, to facilitate the generation of XML audit within the ESB, Project AuditMediator
 
 ## Future works
 
-UI for easy editing of tags within Proxies and Sequences
+* UI for easy editing of tags within Proxies and Sequences
 
 ## Business Process Audit XML Example.
 ```
@@ -128,6 +128,7 @@ UI for easy editing of tags within Proxies and Sequences
 ```
 
 ## Audit Mediator Example: ESB Proxy with process Audit and Dead Letter Channel EIP
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <proxy xmlns="http://ws.apache.org/ns/synapse"
