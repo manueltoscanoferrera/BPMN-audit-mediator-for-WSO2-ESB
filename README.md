@@ -71,6 +71,61 @@ UI for easy editing of tags within Proxies and Sequences
 		</businessProcessAudit>
 
 ```
+## Business Process Audit JSON Example.
+```
+{  
+   "businessProcessAudit":{  
+      "id":52,
+      "name":"Consulta Demanda Por ID Abreviada",
+      "description":"Consulta Demanda Por ID Abreviada",
+      "startTime":"2015-04-29T14:25:27.135+02:00",
+      "endTime":"2015-04-29T14:25:27.139+02:00",
+      "status":"OK",
+      "activities":{  
+         "receiveTaskAudit":{  
+            "id":"ProxyPruebas",
+            "name":"prueba",
+            "description":"echo",
+            "startTime":"2015-04-29T14:25:27.137+02:00",
+            "endTime":"2015-04-29T14:25:40.564+02:00",
+            "status":"OK",
+            "webServiceAudit":{  
+               "endPoint":"local:\/\/\/services\/prueba.pruebaLocalSoap11Endpoint\/",
+               "operation":"urn:echoString",
+               "type":"http:\/\/www.w3.org\/ns\/wsdl\/in-out",
+               "msgRequest":"<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:echo=\"http:\/\/echo.services.core.carbon.wso2.org\"><soapenv:Header xmlns:wsa=\"http:\/\/www.w3.org\/2005\/08\/addressing\"><wsse:Security xmlns:wsse=\"http:\/\/docs.oasis-open.org\/wss\/2004\/01\/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http:\/\/docs.oasis-open.org\/wss\/2004\/01\/oasis-200401-wss-wssecurity-utility-1.0.xsd\"><wsse:UsernameToken wsu:Id=\"UsernameToken-10\"><wsse:Username>admin<\/wsse:Username><wsse:Password Type=\"http:\/\/docs.oasis-open.org\/wss\/2004\/01\/oasis-200401-wss-username-token-profile-1.0#PasswordText\">admin<\/wsse:Password><wsse:Nonce EncodingType=\"http:\/\/docs.oasis-open.org\/wss\/2004\/01\/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">3pREDougGrk\/xZjhNJpMiA==<\/wsse:Nonce><wsu:Created>2015-04-29T12:25:37.816Z<\/wsu:Created><\/wsse:UsernameToken><wsu:Timestamp wsu:Id=\"TS-9\"><wsu:Created>2015-04-29T12:25:37.816Z<\/wsu:Created><wsu:Expires>2015-04-29T12:25:47.816Z<\/wsu:Expires><\/wsu:Timestamp><\/wsse:Security><wsa:Action>urn:echoString<\/wsa:Action><wsa:MessageID>1111<\/wsa:MessageID><\/soapenv:Header><soapenv:Body>\n      <echo:echoString>\n         <!--Optional:-->\n         <in>qwwqw<\/in>\n      <\/echo:echoString>\n   <\/soapenv:Body><\/soapenv:Envelope>",
+               "msgResponse":"<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\"><soapenv:Body><ns:echoStringResponse xmlns:ns=\"http:\/\/echo.services.core.carbon.wso2.org\"><return>qwwqw<\/return><\/ns:echoStringResponse><\/soapenv:Body><\/soapenv:Envelope>",
+               "ipClient":"127.0.1.1",
+               "hostClient":"usuario-laptop7",
+               "idClient":"admin",
+               "ipServer":"127.0.1.1",
+               "hostServer":"usuario-laptop7"
+            }
+         },
+         "sendTaskAudit":{  
+            "id":"callWSConsultaDemandaPorID",
+            "name":"Consulta Demanda Por ID",
+            "description":"echo",
+            "startTime":"2015-04-29T14:25:27.138+02:00",
+            "endTime":"2015-04-29T14:25:40.555+02:00",
+            "status":"OK",
+            "webServiceAudit":{  
+               "endPoint":"http:\/\/usuario-laptop7:8280\/services\/echo",
+               "operation":"echoString",
+               "type":"http:\/\/www.w3.org\/ns\/wsdl\/in-out",
+               "idMsg":"urn:uuid:2edafcaa-01c9-456b-8c5d-f3f3689d8dbb",
+               "msgRequest":"<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:echo=\"http:\/\/echo.services.core.carbon.wso2.org\"><soapenv:Header xmlns:wsa=\"http:\/\/www.w3.org\/2005\/08\/addressing\"><wsse:Security xmlns:wsse=\"http:\/\/docs.oasis-open.org\/wss\/2004\/01\/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http:\/\/docs.oasis-open.org\/wss\/2004\/01\/oasis-200401-wss-wssecurity-utility-1.0.xsd\"><wsse:UsernameToken wsu:Id=\"UsernameToken-10\"><wsse:Username>admin<\/wsse:Username><wsse:Password Type=\"http:\/\/docs.oasis-open.org\/wss\/2004\/01\/oasis-200401-wss-username-token-profile-1.0#PasswordText\">admin<\/wsse:Password><wsse:Nonce EncodingType=\"http:\/\/docs.oasis-open.org\/wss\/2004\/01\/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">3pREDougGrk\/xZjhNJpMiA==<\/wsse:Nonce><wsu:Created>2015-04-29T12:25:37.816Z<\/wsu:Created><\/wsse:UsernameToken><wsu:Timestamp wsu:Id=\"TS-9\"><wsu:Created>2015-04-29T12:25:37.816Z<\/wsu:Created><wsu:Expires>2015-04-29T12:25:47.816Z<\/wsu:Expires><\/wsu:Timestamp><\/wsse:Security><wsa:Action>urn:echoString<\/wsa:Action><wsa:MessageID>1111<\/wsa:MessageID><\/soapenv:Header><soapenv:Body>\n      <echo:echoString>\n         <!--Optional:-->\n         <in>qwwqw<\/in>\n      <\/echo:echoString>\n   <\/soapenv:Body><\/soapenv:Envelope>",
+               "msgResponse":"<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\"><soapenv:Body><ns:echoStringResponse xmlns:ns=\"http:\/\/echo.services.core.carbon.wso2.org\"><return>qwwqw<\/return><\/ns:echoStringResponse><\/soapenv:Body><\/soapenv:Envelope>",
+               "ipClient":"127.0.1.1",
+               "hostClient":"usuario-laptop7",
+               "ipServer":"127.0.1.1",
+               "hostServer":"usuario-laptop7"
+            }
+         }
+      }
+   }
+}
+```
 
 ## Audit Mediator Example: ESB Proxy with process Audit and Dead Letter Channel EIP
 ```
