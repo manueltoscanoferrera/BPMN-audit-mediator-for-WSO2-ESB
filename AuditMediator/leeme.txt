@@ -1,53 +1,44 @@
 *****************
-Compilación
+Compile
 *****************
 
 maven clean package
 
 
 *****************
-Despliege
+Deploy
 *****************
 
-Copiar el archivo  target/audit-mediator-1.0.jar a $ESB_HOME/repository/components/dropins
+Copy target/audit-mediator-1.0.jar to $ESB_HOME/repository/components/dropins
 
 
 *****************
-Configuración
+Configuration
 *****************
 
-1.- Configuración del logger 
+1.- Logger 
 
-dentro del fichero $ESB_HOME/repository/conf/log4j.properties añadir el logger 
+Edit $ESB_HOME/repository/conf/log4j.properties and include:
 
-log4j.logger.es.juntadeandalucia.ceice.intersae=INFO, CARBON_CONSOLE, CARBON_LOGFILE, CARBON_MEMORY, CARBON_SYS_LOG, ERROR_LOGFILE
+log4j.logger.org.codigolibre.auditbpmn.wso2mediator=INFO, CARBON_CONSOLE, CARBON_LOGFILE, CARBON_MEMORY, CARBON_SYS_LOG, ERROR_LOGFILE
 
 
-2.- Desactivación del componente dentro de los proxys/secuencias mediante la property
+2.- Disabling the component within the proxy / sequences by property.
 
  <property name="AUDIT_MEDIATOR_DESACTIVATION" value="true"/>
 
 
+3.- Disabling the automatic capture of fields within the tags  jmsService and webService within the proxy / sequences by property
+
+ <property name="AUDIT_MEDIATOR_DISABLED_JMS_WS_PARAM_CAPTURE" value="true"/>
+
+
+
+
 ****************
-USO
+USES
 ****************
 
+See examples and documentation
 
-Ver ejemplo y documentación.
-
-Para serializar en un store
-
-	<serialize store="audit_store"/> 
-
-Para serializar en una variable
-
-	<serialize destino="nombreVariable"/> 
-
-Para serializar en el ENVELOPE
-
-	<serialize destino="ENVELOPE"/> 
-
-Para serializar en store y variable
-
-	<serialize store="audit_store" destino="nombreVariable"/> 
 
