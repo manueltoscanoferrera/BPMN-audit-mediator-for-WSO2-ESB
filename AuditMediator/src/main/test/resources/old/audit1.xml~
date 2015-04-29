@@ -1,0 +1,26 @@
+<audit xmlns="http://ws.apache.org/ns/synapse">
+            <transaccion>
+               <nombreTransaccion value="Proxy echo "/>
+               <descripcionTransaccion value="Descripción Proxy ECHO"/>
+               <fechaInicioTransaccion value="2010-02-20T13:35:08.901+01:00"/>
+               <detalleTransaccionProxy>
+                  <nombreProxy value="echo"/>
+                  <mensajePeticion captura="true"/>
+               </detalleTransaccionProxy>
+               <variables>
+                  <variable nombre="idUsuario" value="Usuario1"/>
+               </variables>
+            </transaccion>
+            <proceso id="echoInvocacion" nuevo="true">
+               <nombreProceso value="Llamada a WS echo"/>
+               <descripcionProceso value="Llamada a WS echo"/>
+               <variables>
+                  <variable nombre="a" value="a1"/>
+               </variables>
+               <detalleProcesoInvocacionServicioExterno>
+              		 <nombreServicio value="echo"/>
+              		 <endpointServicio value="gov:/intersaeendpoint/echoEP"/>
+               		<mensajePeticion value="{$body}"/>
+		</detalleProcesoInvocacionServicioExterno>
+            </proceso>
+         </audit>

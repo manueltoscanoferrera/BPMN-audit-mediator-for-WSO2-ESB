@@ -1,0 +1,25 @@
+
+<audit xmlns="http://ws.apache.org/ns/synapse">
+	<proceso id="echoInvocacion" nuevo="true" tipo="Prueba">
+		<nombreProceso value="Llamada a WS echo"/>
+		<descripcionProceso value="Llamada a WS echo"/>
+		<fechaInicioProceso value="2010-02-20T13:35:08.901+01:00"/>
+		<fechaFinProceso value="2015-02-20T13:35:08.901+01:00" />
+		<estado value="2"/>
+		<codigoError value="codigoError"/>
+		<mensajeError value="mensajeError"/>
+		<detalleError value="detalleError"/>
+		<variables>
+			<variable nombre="a" value="a1"/>
+			<variable nombre="a2" value="a2"/>
+			<variable nombre="a3" value="a3"/>
+		</variables>
+		<detalleProcesoInvocacionServicioExterno>
+			<nombreServicio value="echo"/>
+			<endpointServicio value="gov:/intersaeendpoint/echoEP"/>
+			<idMensaje value="IDMensaje"/>
+			<mensajePeticion value="{$body}"/>
+			<mensajeRespuesta captura="true"/>
+		</detalleProcesoInvocacionServicioExterno>
+	</proceso>
+</audit>

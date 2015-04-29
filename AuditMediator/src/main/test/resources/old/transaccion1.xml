@@ -1,0 +1,27 @@
+
+<audit xmlns="http://ws.apache.org/ns/synapse">
+	<transaccion>
+		<nombreTransaccion value="Proxy echo"/>
+		<descripcionTransaccion value="descripcionTransaccion"/>
+		<idTransaccion value="idTransaccion"/>
+		<fechaInicioTransaccion value="2010-02-20T13:35:08.901+01:00"/>
+		<fechaFinTransaccion value="2010-02-20T13:35:08.901+01:00"/>
+		<estado value="2"/>
+		<codigoError value="codigoError"/>
+		<mensajeError value="mensajeError"/>
+		<detalleError value="detalleError"/>
+		<detalleTransaccionProxy>
+			<nombreProxy value="echo"/>
+			<ipCliente value="IPCliente"/>
+			<hostCliente value="HostCliente"/>
+			<idMensaje value="IDMensaje"/>
+			<mensajeFormato value="MensajeFormato"/>
+			<mensajePeticion captura="true"/>
+			<mensajeRespuesta captura="true"/>
+		</detalleTransaccionProxy>
+		<variables>
+			<variable nombre="V1" value="V2"/>
+		</variables>
+	</transaccion>
+	<serialize destino="as"/> 
+</audit>

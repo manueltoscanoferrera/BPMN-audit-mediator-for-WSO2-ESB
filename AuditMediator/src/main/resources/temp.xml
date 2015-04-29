@@ -1,0 +1,49 @@
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+	<soapenv:Body>
+		<businessProcessAudit xmlns="urn:org:codigolibre:businessprocessaudit:type:v1.0.0">
+			<id>52</id>
+			<name>Consulta Demanda Por ID Abreviada</name>
+			<description>Consulta Demanda Por ID Abreviada</description>
+			<startTime>2015-04-13T12:49:12.220+02:00</startTime>
+			<endTime>2015-04-13T12:49:12.224+02:00</endTime>
+			<status>OK</status>
+			<activities>
+				<receiveTaskAudit>
+					<id>ProxyPruebas</id>
+					<name>prueba</name>
+					<startTime>2015-04-13T12:49:12.221+02:00</startTime>
+					<endTime>2015-04-13T12:49:33.282+02:00</endTime>
+					<status>OK</status>
+					<webServiceAudit>
+						<endPoint>pruebaLocalSoap11Endpoint</endPoint>
+						<operation>urn:echoString</operation>
+						<type xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+						<msgRequest>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org"&gt;&lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;&lt;wsse:UsernameToken wsu:Id="UsernameToken-72"&gt;&lt;wsse:Username&gt;admin&lt;/wsse:Username&gt;&lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;admin&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"&gt;h2k8aKMjrHzEx2rNPBJSBw==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2015-04-13T10:49:32.617Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;wsu:Timestamp wsu:Id="TS-71"&gt;&lt;wsu:Created&gt;2015-04-13T10:49:32.616Z&lt;/wsu:Created&gt;&lt;wsu:Expires&gt;2015-04-13T10:49:42.616Z&lt;/wsu:Expires&gt;&lt;/wsu:Timestamp&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&lt;soapenv:Body&gt;      &lt;echo:echoString&gt;         &lt;!--Optional:--&gt;         &lt;in&gt;qwwqw&lt;/in&gt;      &lt;/echo:echoString&gt;   &lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</msgRequest>
+						<msgResponse>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"&gt;&lt;soapenv:Body&gt;&lt;ns:echoStringResponse xmlns:ns="http://echo.services.core.carbon.wso2.org"&gt;&lt;return&gt;qwwqw&lt;/return&gt;&lt;/ns:echoStringResponse&gt;&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</msgResponse>
+						<ipClient>127.0.1.1</ipClient>
+						<hostClient>usuario-laptop7</hostClient>
+						<ipServer>127.0.1.1</ipServer>
+						<hostServer>usuario-laptop7</hostServer>
+					</webServiceAudit>
+				</receiveTaskAudit>
+				<sendTaskAudit>
+					<id>callWSConsultaDemandaPorID</id>
+					<name>Consulta Demanda Por ID</name>
+					<startTime>2015-04-13T12:49:12.222+02:00</startTime>
+					<endTime>2015-04-13T12:49:33.276+02:00</endTime>
+					<status>OK</status>
+					<webServiceAudit>
+						<endPoint>gov:/intersae/HermesEP.xml</endPoint>
+						<operation>consultaDemandaPorID</operation>
+						<type xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+						<msgRequest>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org"&gt;&lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;&lt;wsse:UsernameToken wsu:Id="UsernameToken-72"&gt;&lt;wsse:Username&gt;admin&lt;/wsse:Username&gt;&lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;admin&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"&gt;h2k8aKMjrHzEx2rNPBJSBw==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2015-04-13T10:49:32.617Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;wsu:Timestamp wsu:Id="TS-71"&gt;&lt;wsu:Created&gt;2015-04-13T10:49:32.616Z&lt;/wsu:Created&gt;&lt;wsu:Expires&gt;2015-04-13T10:49:42.616Z&lt;/wsu:Expires&gt;&lt;/wsu:Timestamp&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&lt;soapenv:Body&gt;      &lt;echo:echoString&gt;         &lt;!--Optional:--&gt;         &lt;in&gt;qwwqw&lt;/in&gt;      &lt;/echo:echoString&gt;   &lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</msgRequest>
+						<msgResponse>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"&gt;&lt;soapenv:Body&gt;&lt;ns:echoStringResponse xmlns:ns="http://echo.services.core.carbon.wso2.org"&gt;&lt;return&gt;qwwqw&lt;/return&gt;&lt;/ns:echoStringResponse&gt;&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</msgResponse>
+						<ipServer>127.0.1.1</ipServer>
+						<hostServer>usuario-laptop7</hostServer>
+					</webServiceAudit>
+				</sendTaskAudit>
+			</activities>
+		</businessProcessAudit>
+	</soapenv:Body>
+</soapenv:Envelope>

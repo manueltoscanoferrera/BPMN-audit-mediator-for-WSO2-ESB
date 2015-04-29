@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<audit xmlns="http://ws.apache.org/ns/synapse">
+    <receiveTask new="true">
+        <name value="name value"/>
+        <jmsService/>
+    </receiveTask>
+</audit>

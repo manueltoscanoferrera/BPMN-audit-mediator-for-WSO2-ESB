@@ -1,0 +1,190 @@
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:org:codigolibre:businessprocessaudit:type:v1.0.0"
+	xmlns:int="urn:org:codigolibre:businessprocessaudit:type:v1.0.0" elementFormDefault="qualified"
+	attributeFormDefault="unqualified" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1">
+
+
+	<!-- Root Element -->
+	<xs:element name="businessProcessAudit">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:string" nillable="true" />
+				<xs:element name="name" type="xs:string" nillable="true" />
+				<xs:element name="description" type="xs:string" minOccurs="0" />
+				<xs:element name="startTime" type="xs:dateTime" nillable="true" />
+				<xs:element name="endTime" type="xs:dateTime" nillable="true" />
+				<xs:element name="status" type="xs:string" nillable="true" />
+				<xs:element name="error" type="int:ErrorType" minOccurs="0" />
+				<xs:element name="activities" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="int:activity" maxOccurs="unbounded" minOccurs="0">
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:int"></xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- base type for activities -->
+	<xs:complexType name="ErrorType">
+		<xs:sequence>
+			<xs:element name="errorCode" type="xs:string" minOccurs="0" />
+			<xs:element name="errorMessage" type="xs:string" minOccurs="0" />
+			<xs:element name="errorDetail" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+
+	<!-- abstract group for activities -->
+	<xs:element name="activity" abstract="true" />
+
+	<!-- base type for activities -->
+	<xs:complexType name="ActivityTypeAudit">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" nillable="true" />
+			<xs:element name="name" type="xs:string" nillable="true" />
+			<xs:element name="description" type="xs:string" minOccurs="0" />
+			<xs:element name="startTime" type="xs:dateTime" nillable="true" />
+			<xs:element name="endTime" type="xs:dateTime" nillable="true" />
+			<xs:element name="status" type="xs:string" nillable="true" />
+			<xs:element name="error" type="int:ErrorType" minOccurs="0" />
+			<xs:element name="inputParams" type="int:ParamsType" minOccurs="0" />
+			<xs:element name="outputParams" type="int:ParamsType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- audit for bpmn tasks -->
+	<xs:element name="taskAudit" type="int:TaskAuditType" substitutionGroup="int:activity" />
+
+	<xs:complexType name="TaskAuditType">
+		<xs:complexContent>
+			<xs:extension base="int:ActivityTypeAudit">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- audit for bpmn receiveTask -->
+	<xs:element name="receiveTaskAudit" type="int:receiveTaskAuditType" substitutionGroup="int:activity" />
+	<xs:complexType name="receiveTaskAuditType">
+		<xs:complexContent>
+			<xs:extension base="int:ActivityTypeAudit">
+				<xs:sequence>
+					<xs:element ref="int:implementationServiceAudit" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- audit for bpmn sendTask -->
+	<xs:element name="sendTaskAudit"  substitutionGroup="int:activity" >
+	<xs:complexType>
+		<xs:complexContent>
+			<xs:extension base="int:ActivityTypeAudit">
+				<xs:sequence>
+					<xs:element ref="int:implementationServiceAudit" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	</xs:element>
+
+<!-- Abstract element to define audit for different kind of implementations of sendtask -->
+	<xs:element name="implementationServiceAudit" abstract="true"></xs:element>
+<!--  audit for sendtask with web service implementation -->
+	<xs:element name="webServiceAudit" type="int:WebServiceAuditType" substitutionGroup="int:implementationServiceAudit" />
+	<xs:complexType name="WebServiceAuditType">
+		<xs:sequence>
+			<xs:element name="endPoint" type="xs:string" nillable="true"/>
+			<xs:element name="operation" type="xs:string" nillable="true"/>
+			<xs:element name="type" type="xs:string" nillable="true"/>
+			<xs:element name="idMsg" type="xs:string"  minOccurs="0" />
+			<xs:element name="msgRequest" type="xs:string"  minOccurs="0" />
+			<xs:element name="msgResponse" type="xs:string"  minOccurs="0" />
+			<xs:element name="replyTO" type="xs:string"  minOccurs="0" />
+			<xs:element name="ipClient" type="xs:string"  minOccurs="0" />
+			<xs:element name="hostClient" type="xs:string"  minOccurs="0" />
+			<xs:element name="idClient" type="xs:string"  minOccurs="0" />
+			<xs:element name="ipServer" type="xs:string"  minOccurs="0" />
+			<xs:element name="hostServer" type="xs:string"  minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+<!--  audit for sendtask with JMSQueue implementation -->
+	<xs:element name="jmsServiceAudit" type="int:JMSServiceAuditType"
+		substitutionGroup="int:implementationServiceAudit" />
+	<xs:complexType name="JMSServiceAuditType">
+		<xs:sequence>
+			<xs:element name="endPoint" type="xs:string" nillable="true"/>
+			<xs:element name="destination" type="xs:string" minOccurs="0"/>
+			<xs:element name="destinationType" type="xs:string" minOccurs="0" />
+			<xs:element name="defaultReplyDestination" type="xs:string" minOccurs="0" />
+			<xs:element name="defaultReplyDestinationType" type="xs:string" minOccurs="0" />
+			<xs:element name="contentType" type="xs:string" minOccurs="0" />
+			<xs:element name="idMsg" type="xs:string" minOccurs="0" />
+			<xs:element name="idCorrelation" type="xs:string" minOccurs="0" />
+			<xs:element name="msgRequest" type="xs:string" minOccurs="0" />
+			<xs:element name="msgResponse" type="xs:string" minOccurs="0" />
+			<xs:element name="ipClient" type="xs:string" minOccurs="0" />
+			<xs:element name="hostClient" type="xs:string" minOccurs="0" />
+			<xs:element name="idClient" type="xs:string" minOccurs="0" />
+			<xs:element name="ipServer" type="xs:string" minOccurs="0" />
+			<xs:element name="hostServer" type="xs:string" minOccurs="0" />		
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  audit for sendtask with JMSTopic implementation -->
+	<xs:element name="jmsTopicServiceAudit" type="int:JMSTopicServiceAuditType"
+		substitutionGroup="int:implementationServiceAudit" />
+	<xs:complexType name="JMSTopicServiceAuditType">
+		<xs:sequence>
+			<xs:element name="endPoint" type="xs:string" nillable="true"/>
+			<xs:element name="queue" type="xs:string" nillable="true"/>
+			<xs:element name="msg" type="xs:string" minOccurs="0" />
+			<xs:element name="ipClient" type="xs:string" minOccurs="0" />
+			<xs:element name="hostClient" type="xs:string" minOccurs="0" />
+			<xs:element name="idClient" type="xs:string" minOccurs="0" />
+			<xs:element name="ipServer" type="xs:string" minOccurs="0" />
+			<xs:element name="hostServer" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+<!--  audit for bpmn subProcess -->
+	<xs:element name="subProcessAudit" type="int:subProcessAuditType" substitutionGroup="int:activity" />
+	<xs:complexType name="subProcessAuditType">
+		<xs:complexContent>
+			<xs:extension base="int:ActivityTypeAudit">
+				<xs:sequence>
+				<xs:element name="activities" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="int:activity" maxOccurs="unbounded" minOccurs="0">
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	
+
+	<!-- Campos de variables para que las transacciones o processo puedan guardar datos propios -->
+	<xs:complexType name="ParamsType">
+		<xs:sequence>
+			<xs:element name="param" type="int:ParamType" maxOccurs="unbounded" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- <xs:element name="Variable" type="int:VariableType"/> - -->
+	<xs:complexType name="ParamType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string"></xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>

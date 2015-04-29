@@ -1,0 +1,53 @@
+*****************
+Compilación
+*****************
+
+maven clean package
+
+
+*****************
+Despliege
+*****************
+
+Copiar el archivo  target/audit-mediator-1.0.jar a $ESB_HOME/repository/components/dropins
+
+
+*****************
+Configuración
+*****************
+
+1.- Configuración del logger 
+
+dentro del fichero $ESB_HOME/repository/conf/log4j.properties añadir el logger 
+
+log4j.logger.es.juntadeandalucia.ceice.intersae=INFO, CARBON_CONSOLE, CARBON_LOGFILE, CARBON_MEMORY, CARBON_SYS_LOG, ERROR_LOGFILE
+
+
+2.- Desactivación del componente dentro de los proxys/secuencias mediante la property
+
+ <property name="AUDIT_MEDIATOR_DESACTIVATION" value="true"/>
+
+
+****************
+USO
+****************
+
+
+Ver ejemplo y documentación.
+
+Para serializar en un store
+
+	<serialize store="audit_store"/> 
+
+Para serializar en una variable
+
+	<serialize destino="nombreVariable"/> 
+
+Para serializar en el ENVELOPE
+
+	<serialize destino="ENVELOPE"/> 
+
+Para serializar en store y variable
+
+	<serialize store="audit_store" destino="nombreVariable"/> 
+

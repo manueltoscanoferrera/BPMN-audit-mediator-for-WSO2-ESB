@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb">
+  <!--
+
+Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.11 
+Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
+Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+Generado el: 2015.03.11 a las 09:37:46 PM CET 
+
+  -->
+  <bindings scd="x-schema::tns" xmlns:tns="urn:org:codigolibre:businessprocessaudit:type:v1.0.0">
+    <schemaBindings map="false">
+      <package name="org.codigolibre.auditbpmn.jaxb"/>
+    </schemaBindings>
+    <bindings scd="tns:businessProcessAudit">
+      <class ref="org.codigolibre.auditbpmn.jaxb.BusinessProcessAudit"/>
+    </bindings>
+    <bindings scd="~tns:subProcessAuditType">
+      <class ref="org.codigolibre.auditbpmn.jaxb.SubProcessAuditType"/>
+    </bindings>
+    <bindings scd="~tns:ErrorType">
+      <class ref="org.codigolibre.auditbpmn.jaxb.ErrorType"/>
+    </bindings>
+    <bindings scd="~tns:TaskAuditType">
+      <class ref="org.codigolibre.auditbpmn.jaxb.TaskAuditType"/>
+    </bindings>
+    <bindings scd="~tns:receiveTaskAuditType">
+      <class ref="org.codigolibre.auditbpmn.jaxb.ReceiveTaskAuditType"/>
+    </bindings>
+    <bindings scd="~tns:WebServiceAuditType">
+      <class ref="org.codigolibre.auditbpmn.jaxb.WebServiceAuditType"/>
+    </bindings>
+    <bindings scd="~tns:JMSQueueServiceAuditType">
+      <class ref="org.codigolibre.auditbpmn.jaxb.JMSQueueServiceAuditType"/>
+    </bindings>
+    <bindings scd="~tns:JMSTopicServiceAuditType">
+      <class ref="org.codigolibre.auditbpmn.jaxb.JMSTopicServiceAuditType"/>
+    </bindings>
+    <bindings scd="~tns:ActivityTypeAudit">
+      <class ref="org.codigolibre.auditbpmn.jaxb.ActivityTypeAudit"/>
+    </bindings>
+    <bindings scd="~tns:ParamsType">
+      <class ref="org.codigolibre.auditbpmn.jaxb.ParamsType"/>
+    </bindings>
+    <bindings scd="~tns:ParamType">
+      <class ref="org.codigolibre.auditbpmn.jaxb.ParamType"/>
+    </bindings>
+  </bindings>
+</bindings>
+

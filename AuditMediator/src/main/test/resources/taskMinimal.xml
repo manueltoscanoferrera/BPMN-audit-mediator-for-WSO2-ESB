@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<audit xmlns="http://ws.apache.org/ns/synapse">
+    <task id="id" new="true">
+        <name value="task validation"/>
+    </task>
+</audit>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<audit xmlns="http://ws.apache.org/ns/synapse">
+    <businessProcess captureMsg="true" cascadeClose="true"
+        closeWithStatus="OK" id="idBusinessProcess">
+        <name value="Proxy echo"/>
+        <description value="Description Proxy echo"/>
+        <startTime value="2010-02-20T13:35:08.901+01:00"/>
+        <endTime value="2010-02-20T13:35:08.901+01:00"/>
+        <status value="2"/>
+        <errorCode value="{$ctx:errorCode}"/>
+        <errorMessage value="{//errorMSG}"/>
+        <errorDetail value="{$axis2:errorDETAIL}"/>
+    </businessProcess>
+    <serialize target="as"/>
+</audit>

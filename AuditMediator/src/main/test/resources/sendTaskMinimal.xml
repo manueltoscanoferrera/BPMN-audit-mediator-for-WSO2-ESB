@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<audit xmlns="http://ws.apache.org/ns/synapse">
+    <sendTask new="true">
+        <name value="name value"/>
+    </sendTask>
+</audit>

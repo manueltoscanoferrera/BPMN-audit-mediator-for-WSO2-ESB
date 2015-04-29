@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<audit xmlns="http://ws.apache.org/ns/synapse">
+    <subProcess id="parent" new="true">
+        <name value="task validation"/>
+        <description value="Description task validation"/>
+        <startTime value="2010-02-20T13:35:08.901+01:00"/>
+        <endTime value="2015-02-20T13:35:08.901+01:00"/>
+        <status value="1"/>
+        <errorCode value="{$ctx:errorCode}"/>
+        <errorMessage value="{//errorMSG}"/>
+        <errorDetail value="{$axis2:errorDETAIL}"/>
+        <inputParams>
+            <param name="inputP1" value="valueinputP"/>
+            <param name="inputP2" value="{$xtc:valueinputP}"/>
+        </inputParams>
+        <outputParams>
+            <param name="outputP1" value="valueoutputP1"/>
+        </outputParams>
+    </subProcess>
+    <receiveTask closeWithStatus="OK" new="true">
+        <name value="Receive1"/>
+    </receiveTask>
+    <receiveTask closeWithStatus="OK" new="true ">
+        <name value="Receive2"/>
+    </receiveTask>
+    <subProcess id="child" new="true">
+        <name value="SubProcess Child"/>
+    </subProcess>
+    <receiveTask closeWithStatus="OK" new="true ">
+        <name value="Receive1-child1"/>
+    </receiveTask>
+    <subProcess closeWithStatus="OK" id="child" new="false"/>
+    <subProcess closeWithStatus="OK" id="parent" new="false"/>
+    <serialize target="as"/>
+</audit>
