@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>es.juntadeandalucia.ceice.intersae</groupId>
-	<artifactId>audit-mediator</artifactId>
+	<groupId>org.codigolibre.auditbpmn</groupId>
+	<artifactId>wso2-esb-audit-mediator</artifactId>
 	<version>1.0</version>
 	<name></name>
 	<packaging>bundle</packaging>
