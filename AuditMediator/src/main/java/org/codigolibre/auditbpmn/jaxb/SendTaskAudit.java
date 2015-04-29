@@ -43,10 +43,10 @@ public class SendTaskAudit
      * 
      * @return
      *     possible object is
-     *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link Object }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSTopicServiceAuditType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link Object }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSServiceAuditType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
      *     
      */
     public JAXBElement<?> getImplementationServiceAudit() {
@@ -58,10 +58,10 @@ public class SendTaskAudit
      * 
      * @param value
      *     allowed object is
-     *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link Object }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSTopicServiceAuditType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link Object }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSServiceAuditType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
      *     
      */
     public void setImplementationServiceAudit(JAXBElement<?> value) {
