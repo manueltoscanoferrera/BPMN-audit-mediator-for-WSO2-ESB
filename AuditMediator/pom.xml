@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.codigolibre.auditbpmn</groupId>
-	<artifactId>wso2-esb-audit-mediator</artifactId>
+	<artifactId>audit-mediator</artifactId>
 	<version>1.0</version>
 	<name></name>
 	<packaging>bundle</packaging>
