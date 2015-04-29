@@ -1,6 +1,6 @@
 ## Goal
 
-Provide a xml that collects business process execution.
+Provide a xml/json that collects business process execution.
 
 ## Applications.
 
@@ -109,7 +109,7 @@ UI for easy editing of tags within Proxies and Sequences
             <businessProcess closeWithStatus="OK" cascadeClose="true" captureMsg="true">
                <status value="OK"/>
             </businessProcess>
-            <serialize store="audit_store" media-type="xml"/>
+           <serialize store="audit_store" media-type="xml"/> 
          </audit>
          <send/>
       </outSequence>
@@ -120,7 +120,7 @@ UI for easy editing of tags within Proxies and Sequences
          </makefault>
          <audit>
             <businessProcess closeWithStatus="ERROR" cascadeClose="true" captureMsg="true"/>
-            <serialize store="dead_letter_channel" media-type="xml"/>
+            <serialize store="dead_letter_channel" media-type="xml"/> 
          </audit>
          <respond/>
       </faultSequence>
