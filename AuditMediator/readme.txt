@@ -25,7 +25,7 @@ log4j.logger.org.codigolibre.auditbpmn.wso2mediator=INFO, CARBON_CONSOLE, CARBON
 
 2.- Disabling the component within the proxy / sequences by property.
 
- <property name="AUDIT_MEDIATOR_DESACTIVATION" value="true"/>
+<property name="AUDIT_MEDIATOR_DISABLED" value="true"/>
 
 
 3.- Disabling the automatic capture of fields within the tags  jmsService and webService within the proxy / sequences by property
