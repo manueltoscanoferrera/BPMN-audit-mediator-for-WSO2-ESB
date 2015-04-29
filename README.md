@@ -15,6 +15,7 @@ Provide a xml that collects business process execution.
 
 ## Future works
 
+UI for easy editing of tags within Proxies and Sequences
 
 ## Business Process Audit XML Example.
 ```
