@@ -11,7 +11,7 @@ Provide a xml that collects business process execution.
 
 ##  Works done
   * Definition of XML, using as a basis BPMN. See businessProcessAudit.xsd for a description of xml  
-  * Creating a mediator in wso2, to facilitate the generation of XML audit within the ESB, Project AuditMediator
+  * Created a mediator for wso2 esb, to facilitate the generation of XML audit within the ESB, Project AuditMediator
 
 ## Future works
 
