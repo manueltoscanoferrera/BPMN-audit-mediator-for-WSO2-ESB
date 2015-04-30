@@ -1,6 +1,6 @@
 ## Goal
 
-Provide a xml/json that collects business process executio, so allow us know if everything went right or wrong, what activities have taken place ?, how long have taken something ?, failed ?. Giving the possibility to include information that allows us to perform a forensic analysis of the business process or even reactivate it if necessary.
+Provide a xml/json that collects business process execution, so allow us know if everything went right or wrong, what activities have taken place ?, how long have taken something ?, failed ?. Giving the possibility to include information that allows us to perform a forensic analysis of the business process or even reactivate it if necessary.
 
 ## Applications.
 
