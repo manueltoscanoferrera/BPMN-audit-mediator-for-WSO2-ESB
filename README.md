@@ -21,7 +21,14 @@ How to use this in our projects in the WSO2 ESB? We can generate the XML by hand
 
 * UI for easy editing of tags within Proxies and Sequences
 
-## Business Process Audit XML Example.
+
+## More info 
+
+see wiki https://github.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/wiki
+
+## Examples
+
+### Business Process Audit XML Example.
 ```
 <businessProcessAudit xmlns="urn:org:codigolibre:businessprocessaudit:type:v1.0.0">
 			<id>52</id>
@@ -75,7 +82,7 @@ How to use this in our projects in the WSO2 ESB? We can generate the XML by hand
 		</businessProcessAudit>
 
 ```
-## Business Process Audit JSON Example.
+### Business Process Audit JSON Example.
 ```
 {  
    "businessProcessAudit":{  
@@ -131,7 +138,7 @@ How to use this in our projects in the WSO2 ESB? We can generate the XML by hand
 }
 ```
 
-## Audit Mediator Example: ESB Proxy with process Audit and Dead Letter Channel EIP
+### Audit Mediator Example: ESB Proxy with process Audit and Dead Letter Channel EIP
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
