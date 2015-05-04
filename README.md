@@ -1,6 +1,10 @@
-## Goal
+## Introduction
 
-Provide a xml/json that collects business process execution.
+Goal is provide a xml/json that collects business process execution, so allow us know if everything went right or wrong, what activities have taken place ?, how long have taken something ?, failed ?. Giving the possibility to include information that allows us to perform a forensic analysis of the business process or even reactivate it if necessary.
+
+BPMN allows us to model a business process using activities, events, etc. We will not reinvent the wheel, we will use it for inspiration, only need to define something that allows us to collect audit information associated with the types of activities of BPMN. For a task BMPN define a TaskAudit, for a sendTask define a sendTaskAudit, for a subProcess define a subProcessAudit, etc ...
+
+How to use this in our projects in the WSO2 ESB? We can generate the XML by hand in our Sequences, but it's complicated and less than optimal. the ideal would be have a "mediator" in charge of performing this function in the most optimal way possible. This is the Mediator Audit.
 
 ## Applications.
 
@@ -17,7 +21,14 @@ Provide a xml/json that collects business process execution.
 
 * UI for easy editing of tags within Proxies and Sequences
 
-## Business Process Audit XML Example.
+
+## More info 
+
+see wiki https://github.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/wiki
+
+## Examples
+
+### Business Process Audit XML Example.
 ```
 <businessProcessAudit xmlns="urn:org:codigolibre:businessprocessaudit:type:v1.0.0">
 			<id>52</id>
@@ -71,7 +82,7 @@ Provide a xml/json that collects business process execution.
 		</businessProcessAudit>
 
 ```
-## Business Process Audit JSON Example.
+### Business Process Audit JSON Example.
 ```
 {  
    "businessProcessAudit":{  
@@ -127,7 +138,7 @@ Provide a xml/json that collects business process execution.
 }
 ```
 
-## Audit Mediator Example: ESB Proxy with process Audit and Dead Letter Channel EIP
+### Audit Mediator Example: ESB Proxy with process Audit and Dead Letter Channel EIP
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
