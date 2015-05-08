@@ -1,6 +1,5 @@
 package org.codigolibre.auditbpmn.wso2mediator;
 
-import org.codigolibre.auditbpmn.wso2mediator.AuditMediatorFactory;
 import org.junit.Test;
 
 public class TaskTestCase extends AbstractAuditMediatorTestCase {

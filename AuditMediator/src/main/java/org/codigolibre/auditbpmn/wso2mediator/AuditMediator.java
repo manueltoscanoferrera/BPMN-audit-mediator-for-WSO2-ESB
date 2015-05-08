@@ -8,21 +8,15 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.axiom.om.OMElement;
 //import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.*;
-import org.apache.log4j.Level;
+import org.apache.commons.lang.StringUtils;
 import org.apache.synapse.ManagedLifecycle;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.SynapseLog;
 import org.apache.synapse.core.SynapseEnvironment;
 import org.apache.synapse.mediators.AbstractMediator;
-import org.apache.synapse.mediators.MediatorLog;
-import org.codehaus.jettison.mapped.Configuration;
-import org.codehaus.jettison.mapped.MappedNamespaceConvention;
-import org.codehaus.jettison.mapped.MappedXMLStreamWriter;
 import org.codigolibre.auditbpmn.jaxb.BusinessProcessAudit;
 import org.codigolibre.auditbpmn.jaxb.ObjectFactory;
 import org.codigolibre.auditbpmn.wso2mediator.command.Command;
@@ -77,7 +71,7 @@ public class AuditMediator extends AbstractMediator implements ManagedLifecycle 
 			iterator.next().execute(businessProcessAudit, synCtx);
 		}
 
-		if (synLog.isTraceOrDebugEnabled()) {
+		if (synLog.isTraceOrDebugEnabled()) {// print the current Business Process Audit
 			JAXBContext jaxbContext;
 			try {
 				jaxbContext = JAXBContext

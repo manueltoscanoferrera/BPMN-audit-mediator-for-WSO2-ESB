@@ -14,7 +14,6 @@ import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.codigolibre.auditbpmn.jaxb.ActivityTypeAudit;
 import org.codigolibre.auditbpmn.jaxb.BusinessProcessAudit;
 import org.codigolibre.auditbpmn.jaxb.JMSServiceAuditType;
-import org.codigolibre.auditbpmn.jaxb.ReceiveTaskAuditType;
 import org.codigolibre.auditbpmn.jaxb.SendTaskAudit;
 import org.codigolibre.auditbpmn.jaxb.WebServiceAuditType;
 import org.codigolibre.auditbpmn.wso2mediator.AuditMediatorUtils;
@@ -88,7 +87,6 @@ public class SendTaskCommand extends ActivityBaseCommand {
 		}
 		
 		if (implementationService != null) {
-
 			
 			SendTaskAudit sendTaskAudit = (SendTaskAudit) activity;
 

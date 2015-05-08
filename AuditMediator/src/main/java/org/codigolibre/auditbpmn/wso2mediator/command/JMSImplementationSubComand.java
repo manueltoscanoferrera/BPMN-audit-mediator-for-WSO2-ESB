@@ -5,25 +5,15 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.axiom.om.OMAttribute;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
-import org.apache.axis2.Constants;
-import org.apache.axis2.addressing.EndpointReference;
-import org.apache.axis2.description.AxisService;
 import org.apache.axis2.description.Parameter;
-import org.apache.axis2.description.TransportInDescription;
 import org.apache.axis2.transport.jms.JMSConstants;
-import org.apache.axis2.transport.jms.JMSEndpoint;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,15 +23,13 @@ import org.apache.synapse.config.xml.ValueFactory;
 import org.apache.synapse.config.xml.ValueSerializer;
 import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.apache.synapse.endpoints.AbstractEndpoint;
-import org.apache.synapse.endpoints.Endpoint;
 import org.apache.synapse.mediators.MediatorProperty;
 import org.apache.synapse.mediators.Value;
 import org.codigolibre.auditbpmn.jaxb.JMSServiceAuditType;
-import org.codigolibre.auditbpmn.jaxb.WebServiceAuditType;
 import org.codigolibre.auditbpmn.wso2mediator.AuditMediatorUtils;
 
 /**
- * WebService Implementation SubComand Audit
+ * JMS Service Implementation SubComand Audit
  * 
  */
 public class JMSImplementationSubComand implements SubCommand {
@@ -186,57 +174,29 @@ public class JMSImplementationSubComand implements SubCommand {
 	private void autoComplete(JMSServiceAuditType jmsService,
 			MessageContext synCtx) {
 
+		// check if we are disabled
+		String isDisabled = (String) synCtx
+				.getProperty(AuditMediatorUtils.AUDIT_MEDIATOR_DISABLED_JMS_WS_PARAM_CAPTURE_PROPERTY);
+
+		if (!StringUtils.isBlank(isDisabled)
+				&& "TRUE".equalsIgnoreCase(isDisabled)) {
+
+			if (log.isDebugEnabled()) {
+				log.debug("AuditMediator WS & JMS capture params desactivate by property "
+						+ AuditMediatorUtils.AUDIT_MEDIATOR_DISABLED_JMS_WS_PARAM_CAPTURE_PROPERTY
+						+ " with value " + isDisabled);
+			}
+
+			return;
+		}
+		
 		org.apache.axis2.context.MessageContext axis2smc = ((Axis2MessageContext) synCtx)
 				.getAxis2MessageContext();
 
-		log.debug(" isClose " + isClose);
-		log.debug(" isExternalServiceInvocation " + isExternalServiceInvocation);
-
-
-		// DEBUG
-		try {
-			ArrayList<Parameter> params = axis2smc.getAxisService()
-					.getParameters();
-			log.debug(" Params  axis2smc.getAxisService().getParameters()");
-
-			for (Iterator iterator = params.iterator(); iterator.hasNext();) {
-				Parameter parameter = (Parameter) iterator.next();
-				if (parameter.getName().indexOf("wsdl")<1)
-				log.debug(parameter.getName() + " valor -> "
-						+ parameter.getValue());
-			}
-			// QUEUE
-			log.debug("jaxis2smc.getAxisService().getParameter(JMSConstants.PARAM_DEST_TYPE)"
-					+ axis2smc.getAxisService().getParameter(
-							JMSConstants.PARAM_DEST_TYPE));
-			// NOMBRE COLA
-			log.debug("jaxis2smc.getAxisService().getParameter(JMSConstants.PARAM_DESTINATION)"
-					+ axis2smc.getAxisService().getParameter(
-							JMSConstants.PARAM_DESTINATION));
-
-			// URL
-			log.debug("jaxis2smc.getAxisService().getParameter(java.naming.provider.url)"
-					+ axis2smc.getAxisService().getParameter(
-							"java.naming.provider.url"));
-
-			log.debug("jaxis2smc.getAxisService().getParameter(transport.jms.DefaultReplyDestination)"
-					+ axis2smc.getAxisService().getParameter(
-							"transport.jms.DefaultReplyDestination"));
-			log.debug("jaxis2smc.getAxisService().getParameter(transport.jms.DefaultReplyDestinationType)"
-					+ axis2smc.getAxisService().getParameter(
-							"transport.jms.DefaultReplyDestinationType"));
-
-			log.debug("jaxis2smc.getAxisService().getParameter(transport.jms.ContentType)"
-					+ axis2smc.getAxisService().getParameter(
-							"transport.jms.ContentType"));
-
-			log.debug("axis2smc.getMessageID()" + axis2smc.getMessageID());
-
-
-			
-		} catch (Exception e) {
-			// e.printStackTrace();
-		} // dont worry
+		if (log.isDebugEnabled()) {
+			log.debug(" isClose " + isClose);
+			log.debug(" isExternalServiceInvocation " + isExternalServiceInvocation);
+		}
 
 		if (StringUtils.isBlank(jmsService.getDestination())) {
 			try {
@@ -303,7 +263,7 @@ public class JMSImplementationSubComand implements SubCommand {
 				} catch (Exception e) {
 				}
 			}
-			;
+			
 
 			if (StringUtils.isBlank(jmsService.getIpClient())) {
 
@@ -331,10 +291,6 @@ public class JMSImplementationSubComand implements SubCommand {
 			} catch (Exception e) {
 			} // dont worry
 
-			// Pruebas
-
-			log.debug("synCtx.getProperty(SynapseConstants.LAST_ENDPOINT)) "
-					+ synCtx.getProperty(SynapseConstants.LAST_ENDPOINT));
 
 		} else { // send task
 
@@ -358,9 +314,10 @@ public class JMSImplementationSubComand implements SubCommand {
 			}
 
 			if (isClose) { // ya se ha realizado la llamada al JMS...
-
-				log.debug("synCtx.getProperty(SynapseConstants.LAST_ENDPOINT)) "
+				if (log.isDebugEnabled()){
+					log.debug("synCtx.getProperty(SynapseConstants.LAST_ENDPOINT)) "
 						+ synCtx.getProperty(SynapseConstants.LAST_ENDPOINT));
+				}
 
 				if (synCtx.getProperty(SynapseConstants.LAST_ENDPOINT) != null) {
 
@@ -382,16 +339,6 @@ public class JMSImplementationSubComand implements SubCommand {
 
 					}
 
-					log.debug("Propiedades del last endpoint ");
-
-					for (Iterator iterator = endPointlast1.getProperties()
-							.iterator(); iterator.hasNext();) {
-						MediatorProperty type = (MediatorProperty) iterator
-								.next();
-
-						log.debug(type.getName() + " valor " + type.getValue());
-
-					}
 
 					try {
 						URL url = new URL(endPointlast1.getDefinition()

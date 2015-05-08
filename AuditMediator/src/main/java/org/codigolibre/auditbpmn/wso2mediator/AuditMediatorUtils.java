@@ -88,8 +88,6 @@ public class AuditMediatorUtils {
 	public static final String CONTENT_TYPE_TAG_NAME = "contentType";
 	public static final String ID_CORRELATION_TAG_NAME = "idCorrelation";
 
-	
-
 	// attribute tags
 	public static final String NAME_ATT_NAME = "name";
 	public static final QName NAME_ATT_QNAME = new QName(
@@ -148,6 +146,9 @@ public class AuditMediatorUtils {
 	public final static String JSON_TYPE = "json";
 	public final static String XML_TYPE = "xml";
 
+	public final static String JSON_WEBSERVICE_TYPE = "JSON";
+	public final static String SOAP_WEBSERVICE_TYPE = "SOAP";
+	
 	// predefined states for lifecycle of a generic audit element
 	public static final String IN_PROGRESS_STATUS = "UNSPECIFIED";
 	public static final String OK_STATUS = "OK";

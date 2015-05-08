@@ -12,8 +12,6 @@ import org.apache.axiom.om.OMElement;
 import org.apache.commons.io.IOUtils;
 import org.apache.synapse.Mediator;
 import org.apache.synapse.config.SynapseConfigUtils;
-import org.codigolibre.auditbpmn.wso2mediator.AuditMediatorFactory;
-import org.codigolibre.auditbpmn.wso2mediator.AuditMediatorSerializer;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
 import org.custommonkey.xmlunit.DifferenceListener;

@@ -81,7 +81,7 @@ public class AuditMediatorFactory extends AbstractMediatorFactory {
 			comando.parse(xmlCommand);
 			
 
-		}// for
+		}
 
 		return auditMediator;
 	}

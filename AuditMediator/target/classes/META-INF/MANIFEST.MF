@@ -23,7 +23,7 @@ Created-By: Apache Maven Bundle Plugin
 Fragment-Host: synapse-core
 Build-Jdk: 1.6.0_32
 Bundle-Version: 1.0
-Bnd-LastModified: 1430303218671
+Bnd-LastModified: 1431075109431
 Bundle-ManifestVersion: 2
 Import-Package: javax.xml.bind;resolution:=optional,javax.xml.bind.ann
  otation;resolution:=optional,javax.xml.datatype;resolution:=optional,

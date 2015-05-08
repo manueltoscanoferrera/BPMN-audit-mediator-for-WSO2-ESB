@@ -1,7 +1,5 @@
 package org.codigolibre.auditbpmn.wso2mediator;
 
-import java.net.InetAddress;
-
 import org.junit.Test;
 
 public class SendTaskTestCase extends AbstractAuditMediatorTestCase {

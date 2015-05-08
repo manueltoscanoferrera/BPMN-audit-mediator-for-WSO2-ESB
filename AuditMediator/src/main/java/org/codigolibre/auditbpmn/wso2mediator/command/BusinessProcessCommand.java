@@ -82,7 +82,6 @@ public class BusinessProcessCommand implements Command {
 			status = closeWithStatus;
 		}
 
-		// hay un cambio de estado..
 
 		if (status != null) {
 			businessProcessAudit.setStatus(status.evaluateValue(synCtx));
@@ -90,7 +89,6 @@ public class BusinessProcessCommand implements Command {
 			// si no está en curso, actualizando fecha fin
 			if (!AuditMediatorUtils.IN_PROGRESS_STATUS
 					.equalsIgnoreCase(businessProcessAudit.getStatus())) {
-
 				XMLGregorianCalendar xgcal;
 				try {
 					if (businessProcessAudit.getEndTime() == null) {
@@ -99,8 +97,7 @@ public class BusinessProcessCommand implements Command {
 						businessProcessAudit.setEndTime(xgcal);
 					}
 				} catch (DatatypeConfigurationException e) {
-					log.error(
-							"Error creando Fecha Fin Transaccion "
+					log.error("Error parsing end date "
 									+ e.getMessage(), e);
 				}
 
@@ -108,8 +105,7 @@ public class BusinessProcessCommand implements Command {
 
 			if (AuditMediatorUtils.ERROR_STATUS
 					.equalsIgnoreCase(businessProcessAudit.getStatus())) {
-				// rellando con valores por defecto, independientemente q
-				// luego se machaquen.
+				// Capture error information
 				
 				businessProcessAudit.setError(objF.createErrorType());
 
@@ -205,8 +201,7 @@ public class BusinessProcessCommand implements Command {
 					errorDetail.evaluateValue(synCtx));
 		}
 
-		if (isCascadeClose) { // cierra la última activity y la primera
-								// receive...
+		if (isCascadeClose) { // close the last activity and the first receivetask
 
 			ActivityTypeAudit activity = AuditMediatorUtils
 					.findLastNoClosedActivity(businessProcessAudit
@@ -265,7 +260,6 @@ public class BusinessProcessCommand implements Command {
 
 	@Override
 	public void parse(OMElement businessProcess) {
-		// TODO Auto-generated method stub
 
 		if (log.isDebugEnabled() || log.isTraceEnabled()) {
 			log.debug("Parse Transaction command");
@@ -379,7 +373,7 @@ public class BusinessProcessCommand implements Command {
 	public OMElement serialize(OMFactory fac) {
 
 		if (log.isDebugEnabled() || log.isTraceEnabled()) {
-			log.debug("serialize Transaction comando");
+			log.debug("serialize Business Process comando");
 		}
 
 		ValueSerializer valueSerializer = new ValueSerializer();
@@ -448,76 +442,94 @@ public class BusinessProcessCommand implements Command {
 		return root;
 	}
 
-	public Value getNombreTransaccionValue() {
-		return name;
-	}
-
-	public void setNombreTransaccionValue(Value nombreTransaccionValue) {
-		this.name = nombreTransaccionValue;
-	}
-
-	public Value getDescripcionTransaccionValue() {
-		return description;
-	}
-
-	public void setDescripcionTransaccionValue(Value descripcionTransaccionValue) {
-		this.description = descripcionTransaccionValue;
-	}
-
-	public Value getIdTransaccionValue() {
+	public Value getId() {
 		return id;
 	}
 
-	public void setIdTransaccionValue(Value idTransaccionValue) {
-		this.id = idTransaccionValue;
+	public void setId(Value id) {
+		this.id = id;
 	}
 
-	public Value getFechaInicioTransaccionValue() {
+	public Value getName() {
+		return name;
+	}
+
+	public void setName(Value name) {
+		this.name = name;
+	}
+
+	public Value getDescription() {
+		return description;
+	}
+
+	public void setDescription(Value description) {
+		this.description = description;
+	}
+
+	public Value getStartTime() {
 		return startTime;
 	}
 
-	public void setFechaInicioTransaccionValue(Value fechaInicioTransaccionValue) {
-		this.startTime = fechaInicioTransaccionValue;
+	public void setStartTime(Value startTime) {
+		this.startTime = startTime;
 	}
 
-	public Value getFechaFinTransaccionValue() {
+	public Value getEndTime() {
 		return endTime;
 	}
 
-	public void setFechaFinTransaccionValue(Value fechaFinTransaccionValue) {
-		this.endTime = fechaFinTransaccionValue;
+	public void setEndTime(Value endTime) {
+		this.endTime = endTime;
 	}
 
-	public Value getEstadoValue() {
+	public Value getStatus() {
 		return status;
 	}
 
-	public void setEstadoValue(Value estadoValue) {
-		this.status = estadoValue;
+	public void setStatus(Value status) {
+		this.status = status;
 	}
 
-	public Value getCodigoErrorValue() {
+	public Value getErrorCode() {
 		return errorCode;
 	}
 
-	public void setCodigoErrorValue(Value codigoErrorValue) {
-		this.errorCode = codigoErrorValue;
+	public void setErrorCode(Value errorCode) {
+		this.errorCode = errorCode;
 	}
 
-	public Value getMensajeErrorValue() {
+	public Value getErrorMessage() {
 		return errorMessage;
 	}
 
-	public void setMensajeErrorValue(Value mensajeErrorValue) {
-		this.errorMessage = mensajeErrorValue;
+	public void setErrorMessage(Value errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 
-	public Value getDetalleErrorValue() {
+	public Value getErrorDetail() {
 		return errorDetail;
 	}
 
-	public void setDetalleErrorValue(Value detalleErrorValue) {
-		this.errorDetail = detalleErrorValue;
+	public void setErrorDetail(Value errorDetail) {
+		this.errorDetail = errorDetail;
 	}
+
+	public boolean isCascadeClose() {
+		return isCascadeClose;
+	}
+
+	public void setCascadeClose(boolean isCascadeClose) {
+		this.isCascadeClose = isCascadeClose;
+	}
+
+	public boolean isCaptureMsg() {
+		return isCaptureMsg;
+	}
+
+	public void setCaptureMsg(boolean isCaptureMsg) {
+		this.isCaptureMsg = isCaptureMsg;
+	}
+
+	
 
 }

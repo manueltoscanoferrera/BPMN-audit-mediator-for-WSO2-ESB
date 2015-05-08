@@ -6,15 +6,12 @@ import java.net.InetAddress;
 import java.util.Properties;
 
 import org.apache.axiom.om.util.AXIOMUtil;
-import org.apache.commons.logging.impl.Log4JLogger;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.synapse.Mediator;
 import org.apache.synapse.MessageContext;
-import org.apache.synapse.SynapseConstants;
 import org.apache.synapse.config.SynapseConfigUtils;
 import org.apache.synapse.mediators.TestUtils;
-import org.codigolibre.auditbpmn.wso2mediator.AuditMediatorFactory;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Validator;
 import org.custommonkey.xmlunit.XMLTestCase;

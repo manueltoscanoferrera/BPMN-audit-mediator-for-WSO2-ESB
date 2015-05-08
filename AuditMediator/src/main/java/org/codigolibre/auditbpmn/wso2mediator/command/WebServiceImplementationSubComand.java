@@ -6,7 +6,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -23,7 +22,6 @@ import org.apache.synapse.config.xml.ValueFactory;
 import org.apache.synapse.config.xml.ValueSerializer;
 import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.apache.synapse.endpoints.AbstractEndpoint;
-import org.apache.synapse.mediators.MediatorProperty;
 import org.apache.synapse.mediators.Value;
 import org.codigolibre.auditbpmn.jaxb.WebServiceAuditType;
 import org.codigolibre.auditbpmn.wso2mediator.AuditMediatorUtils;
@@ -39,7 +37,6 @@ public class WebServiceImplementationSubComand implements SubCommand {
 
 	private String tag_name;
 
-	//
 	private Value endPoint;
 	private Value operation;
 	private Value type;
@@ -58,6 +55,7 @@ public class WebServiceImplementationSubComand implements SubCommand {
 	private boolean captureResponse = false;
 
 	private boolean isExternalServiceInvocation = false;
+	private boolean isJSON = false;
 
 	@Override
 	public void execute(Object parent, MessageContext synCtx) {
@@ -69,10 +67,6 @@ public class WebServiceImplementationSubComand implements SubCommand {
 		WebServiceAuditType webservice = (WebServiceAuditType) parent;
 
 		// TODO: xforward-header
-
-		// webservice.setOperation(axis2smc.getAxisOperation().getName().toString());
-
-		// realizar inicialización basada en variables de axis...
 
 		if (endPoint != null) {
 			webservice.setEndPoint(endPoint.evaluateValue(synCtx));
@@ -169,50 +163,38 @@ public class WebServiceImplementationSubComand implements SubCommand {
 				log.debug("AuditMediator WS & JMS capture params desactivate by property "
 						+ AuditMediatorUtils.AUDIT_MEDIATOR_DISABLED_JMS_WS_PARAM_CAPTURE_PROPERTY
 						+ " with value " + isDisabled);
+
 			}
 
 			return;
 		}
 		
-		
-		
 		org.apache.axis2.context.MessageContext axis2smc = ((Axis2MessageContext) synCtx)
 				.getAxis2MessageContext();
 
-		log.debug(" isClose " + isClose);
-		log.debug(" isExternalServiceInvocation " + isExternalServiceInvocation);
 
-		
-		
-		// DEBUG
-		try {
-			ArrayList<Parameter> params = axis2smc.getAxisService()
-					.getParameters();
-		log.debug(" Params  axis2smc.getAxisService().getParameters()");
+		if (log.isDebugEnabled()) {// DEBUG
+			log.debug(" isClose " + isClose);
+			log.debug(" isExternalServiceInvocation "
+					+ isExternalServiceInvocation);
+			// DEBUG
+			try {
+				ArrayList<Parameter> params = axis2smc.getAxisService()
+						.getParameters();
+				log.debug(" Params  axis2smc.getAxisService().getParameters()");
 
-		for (Iterator iterator = params.iterator(); iterator.hasNext();) {
-			Parameter parameter = (Parameter) iterator.next();
-			if (parameter.getName().indexOf("wsdl")<0)
-			log.debug(parameter.getName() + " valor -> "
-					+ parameter.getValue());
+				for (Iterator iterator = params.iterator(); iterator.hasNext();) {
+					Parameter parameter = (Parameter) iterator.next();
+					if (parameter.getName().indexOf("wsdl") < 0)
+						log.debug(parameter.getName() + " value -> "
+								+ parameter.getValue());
+				}
+
+			} catch (Exception e) {
+				// e.printStackTrace();
+			} // dont worry
 		}
-		
-		
-		log.debug("Endpoints del servicio ");
-		
-		log.debug("axis2smc.getAxisService().getEndpointURL( " + axis2smc.getAxisService().getEndpointURL());
-		log.debug("axis2smc.getAxisService().getEndpointName() " + axis2smc.getAxisService().getEndpointName());
-		log.debug("axis2smc.getAxisService().getBindingName() " + axis2smc.getAxisService().getBindingName());
-		log.debug("axis2smc.getAxisService().getName() " + axis2smc.getAxisService().getName());
 
-		
-		
-		
-		} catch (Exception e) {
-			// e.printStackTrace();
-		} // dont worry
-
-		
 		if (!isExternalServiceInvocation) { // receive task
 
 			if (StringUtils.isBlank(webservice.getEndPoint())) {
@@ -226,11 +208,24 @@ public class WebServiceImplementationSubComand implements SubCommand {
 									.getEndpointURL());
 
 				} catch (Exception e) {
-					//e.printStackTrace();
+					// e.printStackTrace();
 				} // dont worry
 			}
 
-			if (StringUtils.isBlank(webservice.getOperation())) {
+			if (StringUtils.isBlank(webservice.getType())) {
+				try {
+					if (((String) axis2smc.getProperty("messageType"))
+							.toLowerCase().indexOf("json") > -1) {
+						isJSON = true;
+						webservice.setType(AuditMediatorUtils.JSON_WEBSERVICE_TYPE);
+					} else {
+						webservice.setType(AuditMediatorUtils.SOAP_WEBSERVICE_TYPE);
+					}
+				} catch (Exception e) {
+				}
+			}
+
+			if (StringUtils.isBlank(webservice.getOperation()) && !isJSON) {
 
 				webservice.setOperation(axis2smc.getWSAAction());
 			}
@@ -269,15 +264,6 @@ public class WebServiceImplementationSubComand implements SubCommand {
 			} catch (Exception e) {
 			} // dont worry
 
-			if (StringUtils.isBlank(webservice.getType())) {
-				try {
-				webservice.setType(axis2smc.getAxisOperation()
-						.getMessageExchangePattern());
-				} catch (Exception e) {
-				} // dont worry
-
-			}
-
 		} else { // send task
 
 			try {
@@ -300,22 +286,21 @@ public class WebServiceImplementationSubComand implements SubCommand {
 			}
 
 			if (isClose) { // ya se ha realizado la llamada al WS...
+				if (log.isDebugEnabled()) {
+					log.debug("synCtx.getProperty(SynapseConstants.LAST_ENDPOINT)) "
+							+ synCtx.getProperty(SynapseConstants.LAST_ENDPOINT));
+				}
 
-				log.debug("synCtx.getProperty(SynapseConstants.LAST_ENDPOINT)) "
-						+ synCtx.getProperty(SynapseConstants.LAST_ENDPOINT));
-
-				
 				if (synCtx.getProperty(SynapseConstants.LAST_ENDPOINT) != null) {
 
 					AbstractEndpoint endPointlast1 = (AbstractEndpoint) synCtx
 							.getProperty(SynapseConstants.LAST_ENDPOINT);
 
-					
 					if (StringUtils.isBlank(webservice.getEndPoint())) {
 						try {
 							if (StringUtils.isNotBlank(endPointlast1.getName())) {
 								webservice.setEndPoint(endPointlast1.getName());
-					
+
 							} else {
 								webservice.setEndPoint(endPointlast1
 										.getDefinition().getAddress());
@@ -326,43 +311,43 @@ public class WebServiceImplementationSubComand implements SubCommand {
 
 					}
 
-	/*				log.debug("Propiedades del last endpoint ");
-
-					for (Iterator iterator = endPointlast1.getProperties()
-							.iterator(); iterator.hasNext();) {
-						MediatorProperty type = (MediatorProperty) iterator
-								.next();
-
-						log.debug(type.getName() + " valor " + type.getValue());
-
-					}
-*/
+					/*
+					 * log.debug("Propiedades del last endpoint ");
+					 * 
+					 * for (Iterator iterator = endPointlast1.getProperties()
+					 * .iterator(); iterator.hasNext();) { MediatorProperty type
+					 * = (MediatorProperty) iterator .next();
+					 * 
+					 * log.debug(type.getName() + " valor " + type.getValue());
+					 * 
+					 * }
+					 */
 					if (StringUtils.isBlank(webservice.getType())) {
-
-							webservice.setType(axis2smc.getAxisOperation()
-								.getMessageExchangePattern());
-
-					}
-					
-				/*	if (StringUtils.isBlank(webservice.getOperation())) {
 						try {
-						webservice.setOperation(axis2smc.getAxisOperation().getName().getLocalPart());
+							if (((String) axis2smc.getProperty("messageType"))
+									.toLowerCase().indexOf("json") > -1) {
+								isJSON = true;
+								webservice.setType(AuditMediatorUtils.JSON_WEBSERVICE_TYPE);
+							} else {
+								webservice.setType(AuditMediatorUtils.SOAP_WEBSERVICE_TYPE);
+							}
 						} catch (Exception e) {
-						} 
+						}
 					}
-					*/
 
-					if (StringUtils.isBlank(webservice.getOperation())) {
 
+					if (StringUtils.isBlank(webservice.getOperation())
+							&& !isJSON) {
 						webservice.setOperation(axis2smc.getWSAAction());
 					}
 
 					try {
 						if (StringUtils.isBlank(webservice.getIdClient())) {
 
-							// ver si lo se puede sacar la política del endpoint y de ahí el username
-							
-							//endPointlast1.getDefinition().getInboundWsSecPolicyKey()
+							// ver si lo se puede sacar la política del endpoint
+							// y de ahí el username
+
+							// endPointlast1.getDefinition().getInboundWsSecPolicyKey()
 							webservice.setIdClient((String) axis2smc
 									.getProperty("username"));
 						}

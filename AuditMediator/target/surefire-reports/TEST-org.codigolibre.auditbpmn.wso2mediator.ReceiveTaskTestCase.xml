@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.codigolibre.auditbpmn.wso2mediator.ReceiveTaskTestCase" time="0.094" tests="1" errors="0" skipped="0" failures="0">
+<testsuite name="org.codigolibre.auditbpmn.wso2mediator.ReceiveTaskTestCase" time="0.083" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/opt/jdk1.6.0_32/jre/lib/i386"/>
@@ -58,5 +58,5 @@
     <property name="sun.desktop" value="gnome"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase name="testTask" classname="org.codigolibre.auditbpmn.wso2mediator.ReceiveTaskTestCase" time="0.094"/>
+  <testcase name="testTask" classname="org.codigolibre.auditbpmn.wso2mediator.ReceiveTaskTestCase" time="0.083"/>
 </testsuite>

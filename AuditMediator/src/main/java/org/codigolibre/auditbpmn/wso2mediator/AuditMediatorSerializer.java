@@ -30,16 +30,16 @@ public class AuditMediatorSerializer extends AbstractMediatorSerializer {
 		AuditMediator auditMediator = (AuditMediator) mediator;
 
 		List<Command> commands = auditMediator.getAuditCommands();
-
-		// OMNamespace intersaeNS =
-		// fac.createOMNamespace(AuditMediatorUtils.AUDIT_MEDIATOR_NAMESPACE ,
-		// "audit");
-		// AuditMediatorUtils.setIntersaeNS(intersaeNS);
-
+		
 		// more comfortable working with synapse namespace than "audit meditor"
 		// namespace
-
 		AuditMediatorUtils.setAuditMediatorBaseNS(synNS);
+		
+		// To use a custom namespace, uncomment
+		// OMNamespace auditNS =
+		// fac.createOMNamespace(AuditMediatorUtils.AUDIT_MEDIATOR_NAMESPACE ,
+		// "audit");
+		// AuditMediatorUtils.setAuditMediatorBaseNS(auditNS);
 
 		OMElement auditElement = AuditMediatorUtils.createTag(fac,
 				AuditMediatorUtils.AUDIT_TAG_NAME);
