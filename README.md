@@ -14,8 +14,8 @@ How to use this in our projects in the WSO2 ESB? We can generate the XML by hand
 
 
 ##  Works performed
-* UI for easy editing of tags within Proxies and Sequences
-* Increase the number of BPMN tags supported (events, conversations, etc) and implementations (ftp, imap, cifs, etc) within the activities
+* Definition of XML, using as a basis BPMN. See businessProcessAudit.xsd for a description of xml
+* Created a mediator for wso2 esb, to facilitate the generation of XML audit within the ESB, Project AuditMediator. See audit_mediator_XML_interface.xml and auditMediator.xsd for a description of the Audit Mediator Xml commands.
 
 ## Future works
 
