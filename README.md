@@ -1,6 +1,6 @@
 ## Introduction
 
-Goal is provide a xml/json that collects business process execution, so allow us know if everything went right or wrong, what activities have taken place ?, how long have taken something ?, failed ?. Giving the possibility to include information that allows us to perform a forensic analysis of the business process or even reactivate it if necessary.
+Goal is provide a xml/json that collects business process execution, so allow us know if everything went right or wrong?, what activities have taken place?, how long have taken something?, failed?. Giving the possibility to include information that allows us to perform a forensic analysis of the business process or even reactivate it if necessary.
 
 BPMN allows us to model a business process using activities, events, etc. We will not reinvent the wheel, we will use it for inspiration, only need to define something that allows us to collect audit information associated with the types of activities of BPMN. For a task BMPN define a TaskAudit, for a sendTask define a sendTaskAudit, for a subProcess define a subProcessAudit, etc ...
 
@@ -14,17 +14,18 @@ How to use this in our projects in the WSO2 ESB? We can generate the XML by hand
 
 
 ##  Works performed
-  * Definition of XML, using as a basis BPMN. See businessProcessAudit.xsd for a description of xml  
-  * Created a mediator for wso2 esb, to facilitate the generation of XML audit within the ESB, Project AuditMediator
+* UI for easy editing of tags within Proxies and Sequences
+* Increase the number of BPMN tags supported (events, conversations, etc) and implementations (ftp, imap, cifs, etc) within the activities
 
 ## Future works
 
 * UI for easy editing of tags within Proxies and Sequences
+* Increase the number of BPMN tags supported (events, conversations) and implementations (ftp, imap, cifs, etc) within the activities
 
 
 ## More info 
 
-see wiki https://github.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/wiki
+Wiki https://github.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/wiki
 
 ## Examples
 
