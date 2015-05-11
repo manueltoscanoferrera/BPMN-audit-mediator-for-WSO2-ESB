@@ -20,6 +20,7 @@ How to use this in our projects in the WSO2 ESB? We can generate the XML by hand
 ## Future works
 
 * UI for easy editing of tags within Proxies and Sequences
+* Increase the number of BPMN tags supported (events, conversations) and implementations (ftp, imap, cifs, etc) within the activities
 
 
 ## More info 
