@@ -1,13 +1,8 @@
+# Audit Mediator
+
 Audit Mediator is a component designed to facilitate the generation of XML/JSON Bussiness Process Audit within wso2 ESB product.
 
-AuditMediator works through "command" defined within the Sequences / ESB proxies.
-
-The following diagram shows the currently implemented commands:
-
-<div align="center">
-<img src="https://raw.githubusercontent.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/master/AuditMediator/docs/commandstree.png" width="80%" height="80%" />
-</div>
-<br/>
+AuditMediator works through " XML command" defined within the Sequences / ESB proxies. You can see the definition of these commands on the page: https://github.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/wiki/3.--Audit-Mediator-XML-Commands-for-sequences
 
 Each "command" concrete: taskAudit, sendTaskAudit, etc., are responsible for editing its XML tag similar, within the "XML Business Process Audit" final. It may be a common practice that several commands act on a single XML tag, for example; You can define a TaskAudit command to set the creation of a Task, and other TaskAudit to mark the end of it.
 
@@ -19,7 +14,7 @@ To increase performance, Audit Mediator works internally with a representation o
 Subsequently, by the "serialize" command it performs the conversion of such JAXB to XML or JSON structure, saving the result in a variable or in a store.
 
 
-## More info 
+## More info about this mediator at the wiki.
 
 Wiki https://github.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/wiki
 
