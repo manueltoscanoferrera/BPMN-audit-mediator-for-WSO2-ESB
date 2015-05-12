@@ -4,7 +4,7 @@ Goal is provide a xml/json that collects business process execution, so allow us
 
 BPMN allows us to model a business process using activities, events, etc. We will not reinvent the wheel, we will use it for inspiration, only need to define something that allows us to collect audit information associated with the types of activities of BPMN. For a task BMPN define a TaskAudit, for a sendTask define a sendTaskAudit, for a subProcess define a subProcessAudit, etc ...
 
-How to use this in our projects in the WSO2 ESB? We can generate the XML by hand in our Sequences, but it's complicated and less than optimal. the ideal would be have a "mediator" in charge of performing this function in the most optimal way possible. This is the Audit Mediator.
+How to use this in our projects in the WSO2 ESB? We can generate the XML by hand in our Sequences, but it's complicated and less than optimal. the ideal would be have a "mediator" in charge of performing this function in the most optimal way possible, this is the Audit Mediator.
 
 ## Applications.
 
