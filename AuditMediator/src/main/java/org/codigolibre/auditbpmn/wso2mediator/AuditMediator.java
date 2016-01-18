@@ -35,11 +35,13 @@ public class AuditMediator extends AbstractMediator implements ManagedLifecycle 
 		if (synLog.isTraceOrDebugEnabled()) {
 			synLog.traceOrDebug("Start : AuditMediator");
 		}
-
+		
 		// check if we are disabled
 		String isDisabled = (String) synCtx
 				.getProperty(AuditMediatorUtils.AUDIT_MEDIATOR_DISABLED_CONTEXT_PROPERTY);
 
+		
+		
 		if (!StringUtils.isBlank(isDisabled)
 				&& "TRUE".equalsIgnoreCase(isDisabled)) {
 
@@ -60,6 +62,7 @@ public class AuditMediator extends AbstractMediator implements ManagedLifecycle 
 
 		if (businessProcessAudit == null) {
 			businessProcessAudit = objF.createBusinessProcessAudit();
+
 			synCtx.setProperty(
 					AuditMediatorUtils.AUDIT_MEDIATOR_CONTEXT_PROPERTY,
 					businessProcessAudit);

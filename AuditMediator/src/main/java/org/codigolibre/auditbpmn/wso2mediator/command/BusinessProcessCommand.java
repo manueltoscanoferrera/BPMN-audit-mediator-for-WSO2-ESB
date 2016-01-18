@@ -48,8 +48,7 @@ public class BusinessProcessCommand implements Command {
 	private boolean isCaptureMsg = false;
 	private ObjectFactory objF = new ObjectFactory();
 
-	private GregorianCalendar gcal = (GregorianCalendar) GregorianCalendar
-			.getInstance();
+
 
 	@Override
 	public void execute(BusinessProcessAudit businessProcessAudit,
@@ -66,7 +65,7 @@ public class BusinessProcessCommand implements Command {
 			XMLGregorianCalendar xgcal;
 			try {
 				xgcal = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-						gcal);
+						(GregorianCalendar) GregorianCalendar.getInstance());
 				businessProcessAudit.setStartTime(xgcal);
 			} catch (Exception e) {
 				log.error(
@@ -93,7 +92,7 @@ public class BusinessProcessCommand implements Command {
 				try {
 					if (businessProcessAudit.getEndTime() == null) {
 						xgcal = DatatypeFactory.newInstance()
-								.newXMLGregorianCalendar(gcal);
+								.newXMLGregorianCalendar((GregorianCalendar) GregorianCalendar.getInstance());
 						businessProcessAudit.setEndTime(xgcal);
 					}
 				} catch (DatatypeConfigurationException e) {

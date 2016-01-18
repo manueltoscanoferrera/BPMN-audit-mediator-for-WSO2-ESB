@@ -3,7 +3,7 @@ Export-Package: org.codigolibre.auditbpmn.jaxb;uses:="javax.xml.bind.a
  nnotation,javax.xml.bind,javax.xml.namespace,javax.xml.datatype",org.
  codigolibre.auditbpmn.wso2mediator;uses:="org.codigolibre.auditbpmn.j
  axb,org.apache.commons.logging,javax.xml.datatype,javax.xml.namespace
- ,org.apache.axiom.om,org.apache.commons.lang,org.apache.synapse,org.a
+ ,org.apache.commons.lang,org.apache.axiom.om,org.apache.synapse,org.a
  pache.synapse.config.xml,org.apache.synapse.core,javax.xml.bind,org.a
  pache.synapse.mediators,org.codigolibre.auditbpmn.wso2mediator.comman
  d",org.codigolibre.auditbpmn.wso2mediator.command;uses:="org.codigoli
@@ -23,7 +23,7 @@ Created-By: Apache Maven Bundle Plugin
 Fragment-Host: synapse-core
 Build-Jdk: 1.7.0_51
 Bundle-Version: 1.1.0
-Bnd-LastModified: 1453117439998
+Bnd-LastModified: 1453139846282
 Bundle-ManifestVersion: 2
 Import-Package: javax.xml.bind;resolution:=optional,javax.xml.bind.ann
  otation;resolution:=optional,javax.xml.datatype;resolution:=optional,
