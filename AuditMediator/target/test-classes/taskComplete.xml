@@ -17,5 +17,5 @@
             <param name="outputP1" value="valueoutputP1"/>
         </outputParams>
     </task>
-    <serialize target="as"/>
+    <serialize logger="loggerout" target="as"/>
 </audit>

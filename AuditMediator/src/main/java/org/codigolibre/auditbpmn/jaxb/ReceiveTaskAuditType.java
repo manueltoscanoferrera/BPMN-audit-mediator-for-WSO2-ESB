@@ -43,9 +43,9 @@ public class ReceiveTaskAuditType
      * 
      * @return
      *     possible object is
-     *     {@link JAXBElement }{@code <}{@link JMSTopicServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSServiceAuditType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link JMSTopicServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link Object }{@code >}
      *     
      */
@@ -58,9 +58,9 @@ public class ReceiveTaskAuditType
      * 
      * @param value
      *     allowed object is
-     *     {@link JAXBElement }{@code <}{@link JMSTopicServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSServiceAuditType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link JMSTopicServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link Object }{@code >}
      *     
      */

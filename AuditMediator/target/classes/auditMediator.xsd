@@ -1,175 +1,513 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="urn:juntadeandalucia:ceice:intersae:type:v1.0.0"
-	xmlns:intersae="urn:juntadeandalucia:ceice:intersae:type:v1.0.0"
-	elementFormDefault="qualified" attributeFormDefault="unqualified">
-
-	<!-- Elemento principal -->
-
-	<xs:element name="Audit" >
-		
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	xmlns:int="http://ws.apache.org/ns/synapse" targetNamespace="http://ws.apache.org/ns/synapse">
+	<!-- Root Element -->
+	<xs:element name="audit">
+		<xs:annotation>
+			<xs:documentation>Root tag. All commands must be defined within an Audit tag</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
-			<xs:sequence maxOccurs="unbounded" minOccurs="0">
-				<xs:element ref="intersae:Transaccion" maxOccurs="1"
-					minOccurs="0">
-				</xs:element>
-				<xs:element ref="intersae:DetalleTransaccionProxy" maxOccurs="1"
-					minOccurs="0">
-				</xs:element>
-				<xs:element ref="intersae:Proceso" maxOccurs="1"
-					minOccurs="0">
-				</xs:element>
-
-				<xs:element ref="intersae:Serialize" maxOccurs="1"
-					minOccurs="0">
-				</xs:element>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="int:businessProcess" />
+					<xs:element ref="int:activity" />
+					<xs:element ref="int:serialize" />
+				</xs:choice>
 			</xs:sequence>
-			<xs:attribute name="version" type="xs:string"></xs:attribute>
+			<xs:attribute name="version" type="xs:string" default="1.0.0" use="optional">
+				<xs:annotation>
+					<xs:documentation>Version
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
-		</xs:element>
+	</xs:element>
+
+	<!-- Serialize Command -->
+	<xs:element name="serialize">
+		<xs:annotation>
+			<xs:documentation>
+				Serialize to xml or json the content of the audit JAXB object and store it in a
+				variable or store.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="target" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Name of the variable where to store the result</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="store" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Name of the Store where to store the result</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="media-type" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>xml(default)|json: output format</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- business Process Command -->
+	<xs:element name="businessProcess">
+		<xs:annotation>
+			<xs:documentation>businessProcess is used to gather general information about the business
+				process being audited.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+
+			<xs:complexContent>
+				<xs:extension base="int:BaseTypeCommand">
+					<xs:attribute name="cascadeClose" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>string|{expression}: Used in conjunction with the attribute
+								"closeWithStatus"
+								indicates that the action given in the "closeWithStatus" attribute is
+								performed also on the
+								last open activity.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="captureMsg" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>string|{expression}: The current message inside the context, is copied
+								inside
+								the msgRequest (if activity state == UNESPECIFIED) or inside msgResponse params (if
+								activity
+								state !=
+								UNESPECIFIED). If cascadeClose=true, the action is performed also on the
+								last
+								current
+								activity
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+
+		</xs:complexType>
+
+	</xs:element>
 
 
-	<xs:element name="Transaccion" type="intersae:TransaccionType"></xs:element>
-
-	<xs:complexType name="TransaccionType">
+	<!-- Base type. commons elements -->
+	<xs:complexType name="BaseTypeCommand">
 		<xs:sequence>
-			<xs:element name="NombreTransaccion" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="DescripcionTransaccion" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0">
+			<xs:element name="name" type="xs:string" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>string|{expression}: Activity Name or Business Process Name
+					</xs:documentation>
+				</xs:annotation>
 			</xs:element>
-			<xs:element name="IDTransaccion" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="FechaInicioTransaccion" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="FechaFinTransaccion" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="TipoTransaccion" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="Estado" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="CodigoError" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="MensajeError" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="DetalleError" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="Variables" type="intersae:VariablesType"
-				maxOccurs="unbounded" minOccurs="0">
+			<xs:element name="description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>string|{expression}: Activity description or Business Process description
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startTime" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>string|{expression}: Start Time
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endTime" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>string|{expression}: End Time
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="status" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>string|{expression}: Status code: OK | ERROR | UNESPECIFIED or a custom state
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="errorCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Error Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="errorMessage" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Error Message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="errorDetail" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Error Detail</xs:documentation>
+				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="tipo" type="xs:string"></xs:attribute>
+		<xs:attribute name="id" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>string|{expression}: Unique identifier</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="closeWithStatus" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>string|{expression}: Transits to the specified state, establishing ending date
+					parameter and error parameters (if the specified state is the error state).
+					Status codes: OK |
+					ERROR or a custom state
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 
 
-	<xs:element name="DetalleTransaccionProxy" type="intersae:DetalleTransaccionProxyType"></xs:element>
+	<!-- abstract group for activities -->
+	<xs:element name="activity" abstract="true" />
 
-	<xs:complexType name="DetalleTransaccionProxyType">
-		<xs:sequence>
-			<xs:element name="NombreProxy" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="IPCliente" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="HostCliente" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="IDMensaje" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="MensajeFormato" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="MensajePeticion" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="MensajeRespuesta" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-		</xs:sequence>
+	<!-- base type for activities -->
+	<xs:complexType name="ActivityTypeCommand">
+		<xs:complexContent>
+			<xs:extension base="int:BaseTypeCommand">
+				<xs:sequence>
+					<xs:element name="inputParams" type="int:ParamsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>It lets you specify input parameters passed in the execution of the
+								activity
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="outputParams" type="int:ParamsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>It lets you specify output parameters originated from the execution of the
+								activity
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="new" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>true(default)|false": Specifies whether the command action involves creating
+							a new tag or edit a previous one. To locate the tag to edit: If specified a tag id, it is
+							looking
+							for a tag of the same type with the specified id. If it is not found , a new tag is
+							created.
+							If no tag id is specified, the last tag created of the same type will be edited. If
+							it is not found, a
+							new tag is created.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:element name="Proceso" type="intersae:ProcesoType"></xs:element>
+	<!-- task command -->
+	<xs:element name="task" type="int:TaskCommandType" substitutionGroup="int:activity">
+		<xs:annotation>
+			<xs:documentation>In charge of editon of the TaskAudit tag. In BPMN a task is an unit of work
+				that occurs in a business process.
+			</xs:documentation>
+		</xs:annotation>
 
-	<xs:complexType name="ProcesoType">
+	</xs:element>
+
+	<xs:complexType name="TaskCommandType">
+		<xs:complexContent>
+			<xs:extension base="int:ActivityTypeCommand">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- receiveTask command -->
+	<xs:element name="receiveTask" type="int:receiveTaskCommandType" substitutionGroup="int:activity">
+		<xs:annotation>
+			<xs:documentation>
+				In charge of editon of the receiveTaskAudit tag. In BPMN, a receive task
+				indicates that the
+				process is relying on an incoming message from a third party. Two
+				implementations are currently
+				supported: webServices and jms
+			</xs:documentation>
+		</xs:annotation>
+
+	</xs:element>
+	<xs:complexType name="receiveTaskCommandType">
+		<xs:complexContent>
+			<xs:extension base="int:ActivityTypeCommand">
+				<xs:sequence>
+					<xs:element ref="int:implementationServiceCommand" />
+				</xs:sequence>
+				<xs:attribute name="captureMsg" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>string|{expression}: The current message inside the context, is copied
+							inside
+							the msgRequest (if activity state == UNESPECIFIED) or inside msgResponse params (if
+							activity
+							state !=
+							UNESPECIFIED). If cascadeClose=true, the action is performed also on the last
+							current
+							activity
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- sendTask command -->
+	<xs:element name="sendTask" substitutionGroup="int:activity">
+		<xs:annotation>
+			<xs:documentation>
+				In charge of editon of the sendTaskAudit tag. In BPMN, a sendTask sends a
+				message to another
+				process or lane.Two implementations are currently supported: webServices and
+				jms
+			</xs:documentation>
+
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="int:ActivityTypeCommand">
+					<xs:sequence>
+						<xs:element ref="int:implementationServiceCommand" />
+					</xs:sequence>
+					<xs:attribute name="captureMsg" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>string|{expression}: The current message inside the context, is copied
+								inside
+								the msgRequest (if activity state == UNESPECIFIED) or inside msgResponse params (if
+								activity
+								state !=
+								UNESPECIFIED). If cascadeClose=true, the action is performed also on the
+								last current
+								activity
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Abstract element to define audit for different kind of implementations of sendtask -->
+	<xs:element name="implementationServiceCommand" abstract="true"></xs:element>
+	<!-- audit for sendtask with web service implementation -->
+	<xs:element name="webService" type="int:WebServiceCommandType" substitutionGroup="int:implementationServiceCommand" />
+	<xs:complexType name="WebServiceCommandType">
 		<xs:sequence>
-			<xs:element name="NombreProceso" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="DescripcionProceso" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="FechaInicioProceso" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="FechaFinProceso" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="Estado" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="CodigoError" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="MensajeError" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="DetalleError" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="DetalleProcesoInvocacionServicioExterno" type="intersae:DetalleProcesoInvocacionServicioExternoType">
+			<xs:element name="endPoint" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>In soap WS, it include the End Point of the Soap WS. In REst WS, include the
+						uri of Rest Service with get params.
+					</xs:documentation>
+				</xs:annotation>
+
 			</xs:element>
-			<xs:element name="Variables" type="intersae:VariablesType"
-				maxOccurs="unbounded" minOccurs="0">
+			<xs:element name="operation" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>In Soap WS include the soap action. In Rest WS the HTTP method (get, put,
+						post, delete, etc)
+					</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="type" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> In SOAP WS include the string "SOAP". In Rest WS, include the string "REST"
+					</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="idMsg" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique identifier for the request</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="msgRequest" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> In SOAP WS soap include the envelope. In Rest WS include the Post params.
+					</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="msgResponse" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>return response.</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="replyTO" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Endpoint where the response was send o must be send</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="ipClient" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IP Client that makes the request</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="hostClient" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Hostname Client that makes the request</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="idClient" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if the service is secured, the user ID used in the service invocation
+					</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="ipServer" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> ip of the server processes the request</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="hostServer" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Hostname of the server processes the request</xs:documentation>
+				</xs:annotation>
+
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="id" type="xs:string"></xs:attribute>
-		<xs:attribute name="tipo" type="xs:string"></xs:attribute>
-		<xs:attribute name="nuevo" type="xs:boolean"></xs:attribute>
 	</xs:complexType>
-
-
-	<!-- Por cada tipo de proceso soportado, que incluya campos específicos 
-		añadir su definición al choice -->
-
-	<xs:complexType name="DetalleProcesoInvocacionServicioExternoType">
+	<!-- audit for sendtask with JMSQueue implementation -->
+	<xs:element name="jmsService" type="int:JMSServiceCommandType" substitutionGroup="int:implementationServiceCommand" />
+	<xs:complexType name="JMSServiceCommandType">
 		<xs:sequence>
-			<xs:element name="NombreServicio" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="EndpointServicio" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="IDMensaje" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="MensajeEntrada" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
-			<xs:element name="MensajeSalida" type="intersae:IntersaeAuditCampoType" maxOccurs="1"
-					minOccurs="0"></xs:element>
+			<xs:element name="endPoint" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>EndPoint of the jms service</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="destination" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Topic name or queue name</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="destinationType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Queue or Topic</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="defaultReplyDestination" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Topic name or queue name used to send the response</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="defaultReplyDestinationType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Queue or Topic</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+
+			<xs:element name="idMsg" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique identifier for the request</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="idCorrelation" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> JMS Correlation ID used in the JMS request-response pattern
+					</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="msgRequest" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Message to store</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="msgResponse" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Response message</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="ipClient" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IP Client that makes the request</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="hostClient" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Hostname Client that makes the request</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="idClient" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if the service is secured, the user ID used in the service invocation
+					</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="ipServer" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ip of the server processes the request</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="hostServer" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Hostname of the server processes the request</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
-	<!-- tipo generico para campos -->
 
-	<xs:complexType name="IntersaeAuditCampoType">
-		<xs:attribute name="value" type="xs:string"></xs:attribute>
-		<xs:attribute name="xpath" type="xs:string"></xs:attribute>
+	<!--subProcess command -->
+	<xs:element name="subProcess" type="int:subProcessCommandType" substitutionGroup="int:activity">
+		<xs:annotation>
+			<xs:documentation>
+				In charge of editon of the subProcessAudit tag. In BPMN a subProcess represent
+				a collection of
+				activities being represented collectively as a single activity
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="subProcessCommandType">
+		<xs:complexContent>
+			<xs:extension base="int:ActivityTypeCommand">
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
-
-	<!-- Campos de variables para que las transacciones o processo puedan guardar 
-		datos propios -->
-	<xs:complexType name="VariablesType">
+	<xs:complexType name="ParamsType">
 		<xs:sequence>
-			<xs:element ref="intersae:Variable" maxOccurs="unbounded"
-				minOccurs="0"></xs:element>
+			<xs:element name="param" type="int:ParamType" maxOccurs="unbounded" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
-
-
-	<xs:element name="Variable" type="intersae:VariableType"></xs:element>
-
-
-	<xs:complexType name="VariableType">
+	<!-- <xs:element name="Variable" type="int:VariableType"/> - -->
+	<xs:complexType name="ParamType">
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
-				<xs:attribute name="nombre" type="xs:string"></xs:attribute>
+				<xs:attribute name="name" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>String: Param name</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="value" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>string|{expression}: Param value</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
-
-
-	<xs:element name="Serialize" type="intersae:SerializeType"></xs:element>
-
-	<xs:complexType name="SerializeType">
-		<xs:attribute name="type" type="xs:string"></xs:attribute>
-	</xs:complexType>
-
-
-
 
 </xs:schema>

@@ -59,7 +59,12 @@ public abstract class AbstractAuditMediatorTestCase extends XMLTestCase {
 		InetAddress.getLocalHost()
 				.getHostName();
 		
+		String ip_local = 
+		InetAddress.getLocalHost().getHostAddress();
+				
+		
 		serializeOKtoCompare = serializeOKtoCompare.replaceAll("_HOST_", host);
+		serializeOKtoCompare = serializeOKtoCompare.replaceAll("_IP_LOCAL_", ip_local);
 		
 		
 		String serializationXML = validateAndGetSerialize(proxyTag);

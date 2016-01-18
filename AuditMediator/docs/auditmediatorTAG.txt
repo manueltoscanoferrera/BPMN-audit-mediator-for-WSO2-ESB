@@ -96,7 +96,7 @@ AUDIT_MEDIATOR_DISABLED_JMS_WS_PARAM_CAPTURE -> valor a true desactiva el auto r
 
 	
 	<!-- comando para generar el XML de auditoría y guardarlo en el destino deseado --> 
-	<serialize target="variable name" store="store name" media-type="xml (default) | json"/>* <!-- la variable es INTERSAE_AUDIT -->
+	<serialize target="variable name" store="store name"  logger="logger name" media-type="xml (default) | json"/>* <!-- la variable es INTERSAE_AUDIT -->
 	
 	</audit>
 	

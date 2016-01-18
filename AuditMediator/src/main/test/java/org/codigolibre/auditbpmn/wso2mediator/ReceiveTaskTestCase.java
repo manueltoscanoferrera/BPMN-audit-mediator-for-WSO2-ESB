@@ -36,7 +36,7 @@ public class ReceiveTaskTestCase extends AbstractAuditMediatorTestCase {
 			"				<msgResponse>&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"&gt;&lt;soapenv:Body&gt;&lt;p:echoInt xmlns:p=\"http://echo.services.core.carbon.wso2.org\"&gt;\n" + 
 			"      &lt;in&gt;1&lt;/in&gt;\n" + 
 			"   &lt;/p:echoInt&gt;&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</msgResponse>\n" + 
-			"				<ipServer>127.0.1.1</ipServer>\n" + 
+			"				<ipServer>_IP_LOCAL_</ipServer>\n" + 
 			"				<hostServer>_HOST_</hostServer>\n" + 
 			"			</webServiceAudit>\n" + 
 			"		</receiveTaskAudit>\n" + 
@@ -76,8 +76,8 @@ public class ReceiveTaskTestCase extends AbstractAuditMediatorTestCase {
 			"						<msgResponse>&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"&gt;&lt;soapenv:Body&gt;&lt;p:echoInt xmlns:p=\"http://echo.services.core.carbon.wso2.org\"&gt;\n" + 
 			"      &lt;in&gt;1&lt;/in&gt;\n" + 
 			"   &lt;/p:echoInt&gt;&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</msgResponse>\n" + 
-			"						<ipServer>127.0.1.1</ipServer>\n" + 
-			"						<hostServer>usuario-laptop7</hostServer>\n" + 
+			"						<ipServer>_IP_LOCAL_</ipServer>\n" + 
+			"						<hostServer>_HOST_</hostServer>\n" + 
 			"					</jmsServiceAudit>\n" + 
 			"				</receiveTaskAudit>\n" + 
 			"			</activities>\n" + 

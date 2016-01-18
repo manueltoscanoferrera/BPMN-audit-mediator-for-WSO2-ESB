@@ -133,6 +133,11 @@ public class AuditMediatorUtils {
 	public static final QName MEDIA_TYPE_ATT_QNAME = new QName(
 			XMLConfigConstants.NULL_NAMESPACE, MEDIA_TYPE_ATT_NAME);
 
+	public static final String LOGGER_NAME_ATT_NAME = "logger";
+	public static final QName LOGGER_NAME_QNAME = new QName(
+			XMLConfigConstants.NULL_NAMESPACE, LOGGER_NAME_ATT_NAME);
+
+	
 	// Error tags
 	public static final String ERROR_CODE_TAG_NAME = "errorCode";
 	public static final String ERROR_MESSAGE_TAG_NAME = "errorMessage";

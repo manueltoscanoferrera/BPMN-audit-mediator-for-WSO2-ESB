@@ -35,6 +35,8 @@ public class SerializeCommand implements Command {
 	private String target;
 	private String storeName;
 	private String mediaType;
+	private String loggerName;
+	private Log logger; //logger to out the serializa
 	
 	// we re-use the WSO2 MessageStoreMediator to perform the store in JMS
 	private MessageStoreMediator storeMediator;
@@ -121,6 +123,11 @@ public class SerializeCommand implements Command {
 
 				}
 			}
+			if (logger != null) {
+	
+			    logger.info(stringBusiness.toString());
+			}
+
 
 		} catch (Exception e) {
 			log.error(
@@ -146,6 +153,9 @@ public class SerializeCommand implements Command {
 		
 		OMAttribute mediaTypeAttribute = element
 				.getAttribute(AuditMediatorUtils.MEDIA_TYPE_ATT_QNAME);
+		
+		OMAttribute loggerAttribute = element
+				.getAttribute(AuditMediatorUtils.LOGGER_NAME_QNAME);
 
 		if (destinoAtributo != null) {
 			target = destinoAtributo.getAttributeValue();
@@ -172,6 +182,16 @@ public class SerializeCommand implements Command {
 
 			if (log.isDebugEnabled() || log.isTraceEnabled()) {
 				log.debug(AuditMediatorUtils.MEDIA_TYPE_ATT_QNAME + " " + mediaType);
+			}
+
+		}
+
+		if (loggerAttribute != null) {
+			loggerName = loggerAttribute.getAttributeValue();
+			logger = LogFactory.getLog(loggerName);
+
+			if (log.isDebugEnabled() || log.isTraceEnabled()) {
+				log.debug(AuditMediatorUtils.LOGGER_NAME_QNAME + " " + loggerAttribute.getAttributeValue());
 			}
 
 		}
@@ -210,6 +230,12 @@ public class SerializeCommand implements Command {
 			root.addAttribute(fac.createOMAttribute(
 					AuditMediatorUtils.MEDIA_TYPE_ATT_NAME,
 					AuditMediatorUtils.nullNS, mediaType));
+		}
+		
+		if (loggerName != null) {
+			root.addAttribute(fac.createOMAttribute(
+					AuditMediatorUtils.LOGGER_NAME_ATT_NAME,
+					AuditMediatorUtils.nullNS, loggerName));
 		}
 
 		return root;

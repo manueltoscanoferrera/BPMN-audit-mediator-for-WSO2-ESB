@@ -1,7 +1,14 @@
 package org.codigolibre.auditbpmn.wso2mediator;
 
+import java.io.StringWriter;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.WriterAppender;
 import org.apache.synapse.Mediator;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.config.SynapseConfigUtils;
@@ -28,7 +35,10 @@ public class SerializeTestCase extends AbstractAuditMediatorTestCase {
 	
 	private String serializeJSONCOMPARE = "{\"businessProcessAudit\":{\"id\":{\"@nil\":\"true\"},\"name\":{\"@nil\":\"true\"},\"startTime\":{\"@nil\":\"true\"},\"endTime\":{\"@nil\":\"true\"},\"status\":{\"@nil\":\"true\"}}}";
 	
-
+	private String serializeLOGGER = "<audit xmlns=\"http://ws.apache.org/ns/synapse\">\n" 
+			+ "	<serialize logger=\"loggerOUT\" media-type=\"json\"/>\n" + "</audit>";
+	
+	
 
 	@Test
 	public void testXMLSerializeInsideVariable() throws Exception {
@@ -37,7 +47,7 @@ public class SerializeTestCase extends AbstractAuditMediatorTestCase {
 	
 	
 	@Test
-	public void testJSON() throws Exception {
+	public void testVariable() throws Exception {
 		beforeClass();
 		String proxyData = serializeJSON;
 		String serializaOKCompare =serializeJSONCOMPARE;
@@ -75,6 +85,53 @@ public class SerializeTestCase extends AbstractAuditMediatorTestCase {
 
 	}
 	
+	@Test
+	public void testLOGGER() throws Exception {
+		beforeClass();
+		String proxyData = serializeLOGGER;
+		String serializaOKCompare =serializeJSONCOMPARE;
+		
+		// check if audit xml contents variable serialization and validate xml
+		// transaccion
+		String loggerName = null;
+		if (proxyData.indexOf("logger=\"") > 0) {
+			loggerName = proxyData.substring(
+					proxyData.indexOf("logger=\"") + 8,
+					proxyData
+							.indexOf("\"", proxyData
+									.indexOf("logger=\"") + 8));
+
+		} else
+			return;
+
+		StringWriter sw = new StringWriter();
+	    WriterAppender a = new WriterAppender();
+	    a.setLayout(new PatternLayout("%m "));
+	    a.setWriter(sw);
+	    a.activateOptions();
+	    BasicConfigurator.configure(a);
+		
+	    Logger logger = Logger.getLogger(loggerName);
+	
+		Mediator auditMediator = auditMediatorFactory.createMediator(
+				SynapseConfigUtils.stringToOM(proxyData),
+				new Properties());
+		
+		MessageContext synCtx = TestUtils
+				.createLightweightSynapseMessageContext("<empty/>");
+
+		// perform mediation
+		assertTrue(auditMediator.mediate(synCtx));
+
+		String serializationXML  = sw.getBuffer().toString().trim();
+
+		assertEquals("\n Valid "
+				+ serializaOKCompare + "\n Generated "
+				+ serializationXML,serializaOKCompare ,serializationXML);
+		
+
+		
+	}
 	
 	
 

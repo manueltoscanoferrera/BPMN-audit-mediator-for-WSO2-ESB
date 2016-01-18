@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.codigolibre.auditbpmn.wso2mediator.SerializeTestCase
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 sec - in org.codigolibre.auditbpmn.wso2mediator.SerializeTestCase
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.095 sec - in org.codigolibre.auditbpmn.wso2mediator.SerializeTestCase
