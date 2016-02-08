@@ -1,0 +1,12 @@
+
+v1.2.0  2/8/2016 
+	CorrelationID param added to BusinessProcessAudit
+	Context params added to BusinessProcessAudit
+
+
+v1.1.0  1/18/2016 
+	Start time bug
+	Serializer to Custom Logger
+
+v1.0.0  6/11/2015 
+	First version
