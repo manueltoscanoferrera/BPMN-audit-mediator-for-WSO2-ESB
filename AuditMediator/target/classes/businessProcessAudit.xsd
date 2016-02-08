@@ -12,10 +12,12 @@
 				<xs:element name="id" type="xs:string" nillable="true" />
 				<xs:element name="name" type="xs:string" nillable="true" />
 				<xs:element name="description" type="xs:string" minOccurs="0" />
+				<xs:element name="correlationID" type="xs:string" minOccurs="0" />
 				<xs:element name="startTime" type="xs:dateTime" nillable="true" />
 				<xs:element name="endTime" type="xs:dateTime" nillable="true" />
 				<xs:element name="status" type="xs:string" nillable="true" />
 				<xs:element name="error" type="int:ErrorType" minOccurs="0" />
+				<xs:element name="contextParams" type="int:ParamsType" minOccurs="0" />
 				<xs:element name="activities" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>

@@ -46,9 +46,14 @@ public class BusinessProcessCommand implements Command {
 	private Value closeWithStatus;
 	private boolean isCascadeClose = false;
 	private boolean isCaptureMsg = false;
+	
+	private Value correlationID;
+	protected ParamsSubCommand contextParams;
+	
 	private ObjectFactory objF = new ObjectFactory();
 
-
+	private GregorianCalendar gcal = (GregorianCalendar) GregorianCalendar
+			.getInstance();
 
 	@Override
 	public void execute(BusinessProcessAudit businessProcessAudit,
@@ -65,7 +70,7 @@ public class BusinessProcessCommand implements Command {
 			XMLGregorianCalendar xgcal;
 			try {
 				xgcal = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-						(GregorianCalendar) GregorianCalendar.getInstance());
+						gcal);
 				businessProcessAudit.setStartTime(xgcal);
 			} catch (Exception e) {
 				log.error(
@@ -92,7 +97,7 @@ public class BusinessProcessCommand implements Command {
 				try {
 					if (businessProcessAudit.getEndTime() == null) {
 						xgcal = DatatypeFactory.newInstance()
-								.newXMLGregorianCalendar((GregorianCalendar) GregorianCalendar.getInstance());
+								.newXMLGregorianCalendar(gcal);
 						businessProcessAudit.setEndTime(xgcal);
 					}
 				} catch (DatatypeConfigurationException e) {
@@ -143,7 +148,10 @@ public class BusinessProcessCommand implements Command {
 		if (id != null) {
 			businessProcessAudit.setId(id.evaluateValue(synCtx));
 		}
-
+		if (correlationID != null) {
+			businessProcessAudit.setCorrelationID(correlationID.evaluateValue(synCtx));
+		}
+		
 		if (startTime != null) {
 
 			try {
@@ -198,6 +206,10 @@ public class BusinessProcessCommand implements Command {
 			}
 			businessProcessAudit.getError().setErrorDetail(
 					errorDetail.evaluateValue(synCtx));
+		}
+		
+		if (contextParams != null) {
+			contextParams.execute(businessProcessAudit.getContextParams(), synCtx);
 		}
 
 		if (isCascadeClose) { // close the last activity and the first receivetask
@@ -356,6 +368,14 @@ public class BusinessProcessCommand implements Command {
 					AuditMediatorUtils.ERROR_DETAIL_TAG_NAME)) {
 				errorDetail = valueFactory.createValue(
 						AuditMediatorUtils.VALUE_ATT_NAME, param);
+			} else if (AuditMediatorUtils.isTag(param,
+						AuditMediatorUtils.CORRELATION_ID_TAG_NAME)) {
+					correlationID = valueFactory.createValue(
+							AuditMediatorUtils.VALUE_ATT_NAME, param);
+			}  else if (AuditMediatorUtils.isTag(param,
+					AuditMediatorUtils.CONTEXT_PARAMS_TAG_NAME)) {
+				contextParams = new ParamsSubCommand();
+				contextParams.parse(param);
 			} else {
 				log.error("Unable to create the Audit mediator. "
 						+ "Unexpected element: "
@@ -408,6 +428,12 @@ public class BusinessProcessCommand implements Command {
 					AuditMediatorUtils.NAME_TAG_NAME, name);
 		}
 
+		if (correlationID != null) {
+
+			AuditMediatorUtils.addChildTagWithValue(root,
+					AuditMediatorUtils.CORRELATION_ID_TAG_NAME, correlationID);
+		}
+		
 		if (description != null) {
 			AuditMediatorUtils.addChildTagWithValue(root,
 					AuditMediatorUtils.DESCRIPTION_TAG_NAME, description);
@@ -436,6 +462,9 @@ public class BusinessProcessCommand implements Command {
 		if (errorDetail != null) {
 			AuditMediatorUtils.addChildTagWithValue(root,
 					AuditMediatorUtils.ERROR_DETAIL_TAG_NAME, errorDetail);
+		}
+		if (contextParams != null) {
+			root.addChild(contextParams.serialize(fac));
 		}
 
 		return root;
@@ -527,6 +556,22 @@ public class BusinessProcessCommand implements Command {
 
 	public void setCaptureMsg(boolean isCaptureMsg) {
 		this.isCaptureMsg = isCaptureMsg;
+	}
+
+	public Value getCorrelationID() {
+		return correlationID;
+	}
+
+	public void setCorrelationID(Value correlationID) {
+		this.correlationID = correlationID;
+	}
+
+	public ParamsSubCommand getContextParams() {
+		return contextParams;
+	}
+
+	public void setContextParams(ParamsSubCommand contextParams) {
+		this.contextParams = contextParams;
 	}
 
 	

@@ -9,7 +9,7 @@ maven clean package
 Deploy
 *****************
 
-Copy target/audit-mediator-1.1.0.jar to $ESB_HOME/repository/components/dropins
+Copy target/audit-mediator-1.2.0.jar to $ESB_HOME/repository/components/dropins
 
 
 *****************

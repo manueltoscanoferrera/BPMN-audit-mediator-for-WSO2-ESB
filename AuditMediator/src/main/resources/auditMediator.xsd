@@ -66,6 +66,21 @@
 
 			<xs:complexContent>
 				<xs:extension base="int:BaseTypeCommand">
+					<xs:sequence>
+					<xs:element name="correlationID" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>It lets you specify context parameters 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="contextParams" type="int:ParamsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>It lets you specify context parameters 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					</xs:sequence>
+
 					<xs:attribute name="cascadeClose" type="xs:string" use="optional">
 						<xs:annotation>
 							<xs:documentation>string|{expression}: Used in conjunction with the attribute

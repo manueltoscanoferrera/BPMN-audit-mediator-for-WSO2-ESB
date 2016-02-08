@@ -43,8 +43,8 @@ public class SendTaskAudit
      * 
      * @return
      *     possible object is
-     *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link Object }{@code >}
+     *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSTopicServiceAuditType }{@code >}
      *     
@@ -58,8 +58,8 @@ public class SendTaskAudit
      * 
      * @param value
      *     allowed object is
-     *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link Object }{@code >}
+     *     {@link JAXBElement }{@code <}{@link WebServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSServiceAuditType }{@code >}
      *     {@link JAXBElement }{@code <}{@link JMSTopicServiceAuditType }{@code >}
      *     

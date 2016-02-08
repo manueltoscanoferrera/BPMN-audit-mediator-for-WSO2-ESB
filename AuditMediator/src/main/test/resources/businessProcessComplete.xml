@@ -4,12 +4,17 @@
         closeWithStatus="OK" id="idBusinessProcess">
         <name value="Proxy echo"/>
         <description value="Description Proxy echo"/>
+        <correlationID value="1234567890"/>
         <startTime value="2010-02-20T13:35:08.901+01:00"/>
         <endTime value="2010-02-20T13:35:08.901+01:00"/>
         <status value="2"/>
         <errorCode value="{$ctx:errorCode}"/>
         <errorMessage value="{//errorMSG}"/>
         <errorDetail value="{$axis2:errorDETAIL}"/>
+        <contextParams>
+            <param name="inputP1" value="valueinputP"/>
+            <param name="inputP2" value="{$xtc:valueinputP}"/>
+        </contextParams>
     </businessProcess>
     <serialize target="as"/>
 </audit>

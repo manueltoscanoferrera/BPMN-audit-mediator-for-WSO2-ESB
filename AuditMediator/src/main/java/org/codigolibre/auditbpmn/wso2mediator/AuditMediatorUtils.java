@@ -63,6 +63,7 @@ public class AuditMediatorUtils {
 	// params tags
 	public static final String INPUT_PARAMS_TAG_NAME = "inputParams";
 	public static final String OUTPUT_PARAMS_TAG_NAME = "outputParams";
+	public static final String CONTEXT_PARAMS_TAG_NAME = "contextParams";
 	public static final String PARAM_TAG_NAME = "param";
 
 	// Webservice tags
@@ -163,6 +164,8 @@ public class AuditMediatorUtils {
 	public static final org.apache.axiom.om.OMNamespace nullNS = OMAbstractFactory
 			.getOMFactory().createOMNamespace("", "");
 
+	public static final String CORRELATION_ID_TAG_NAME = "correlationID";
+	
 	/**
 	 * Utility to change easy the namespace of the audit mediator
 	 * 

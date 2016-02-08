@@ -8,7 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ AuditMediatorSerializationTestCase.class,
 		ActivityBaseTestCase.class, SerializeTestCase.class,
 		TaskTestCase.class, SubProcessTestCase.class, SendTaskTestCase.class,
-		ReceiveTaskTestCase.class })
+		ReceiveTaskTestCase.class, BusinessProcessAuditTestCase.class })
 public class AllTestsAuditMediator {
 
 }

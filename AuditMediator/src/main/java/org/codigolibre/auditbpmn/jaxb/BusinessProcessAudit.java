@@ -29,10 +29,12 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="correlationID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="startTime" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="endTime" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="status" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="error" type="{urn:org:codigolibre:businessprocessaudit:type:v1.0.0}ErrorType" minOccurs="0"/>
+ *         &lt;element name="contextParams" type="{urn:org:codigolibre:businessprocessaudit:type:v1.0.0}ParamsType" minOccurs="0"/>
  *         &lt;element name="activities" minOccurs="0">
  *           &lt;complexType>
  *             &lt;complexContent>
@@ -58,10 +60,12 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "id",
     "name",
     "description",
+    "correlationID",
     "startTime",
     "endTime",
     "status",
     "error",
+    "contextParams",
     "activities"
 })
 @XmlRootElement(name = "businessProcessAudit")
@@ -72,6 +76,7 @@ public class BusinessProcessAudit {
     @XmlElement(required = true, nillable = true)
     protected String name;
     protected String description;
+    protected String correlationID;
     @XmlElement(required = true, nillable = true)
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar startTime;
@@ -81,6 +86,9 @@ public class BusinessProcessAudit {
     @XmlElement(required = true, nillable = true)
     protected String status;
     protected ErrorType error;
+    @XmlElementWrapper
+    @XmlElement(name = "param", namespace = "urn:org:codigolibre:businessprocessaudit:type:v1.0.0")
+    protected List<ParamType> contextParams;
     @XmlElementWrapper
     @XmlElementRef(name = "activity", namespace = "urn:org:codigolibre:businessprocessaudit:type:v1.0.0", type = JAXBElement.class)
     protected List<JAXBElement<?>> activities;
@@ -157,6 +165,30 @@ public class BusinessProcessAudit {
      */
     public void setDescription(String value) {
         this.description = value;
+    }
+
+    /**
+     * Gets the value of the correlationID property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCorrelationID() {
+        return correlationID;
+    }
+
+    /**
+     * Sets the value of the correlationID property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCorrelationID(String value) {
+        this.correlationID = value;
     }
 
     /**
@@ -277,6 +309,17 @@ public class BusinessProcessAudit {
      */
     public void setVersion(Integer value) {
         this.version = value;
+    }
+
+    public List<ParamType> getContextParams() {
+        if (contextParams == null) {
+            contextParams = new ArrayList<ParamType>();
+        }
+        return contextParams;
+    }
+
+    public void setContextParams(List<ParamType> contextParams) {
+        this.contextParams = contextParams;
     }
 
     public List<JAXBElement<?>> getActivities() {
