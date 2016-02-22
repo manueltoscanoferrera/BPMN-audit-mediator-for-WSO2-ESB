@@ -1,8 +1,9 @@
+v1.2.1  2/22/2016 
+	Reintegration Start time bug (v1.1.0) patch lost
 
 v1.2.0  2/8/2016 
 	CorrelationID param added to BusinessProcessAudit
 	Context params added to BusinessProcessAudit
-
 
 v1.1.0  1/18/2016 
 	Start time bug

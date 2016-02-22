@@ -22,8 +22,8 @@ Bundle-Name: auditmediator
 Created-By: Apache Maven Bundle Plugin
 Fragment-Host: synapse-core
 Build-Jdk: 1.7.0_51
-Bundle-Version: 1.2.0
-Bnd-LastModified: 1454926787621
+Bundle-Version: 1.2.1
+Bnd-LastModified: 1456135756126
 Bundle-ManifestVersion: 2
 Import-Package: javax.xml.bind;resolution:=optional,javax.xml.bind.ann
  otation;resolution:=optional,javax.xml.datatype;resolution:=optional,
