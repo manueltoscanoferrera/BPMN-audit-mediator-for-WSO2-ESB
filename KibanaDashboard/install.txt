@@ -20,8 +20,8 @@ Kibana DashBoard for audit logs.
     <serialize target="auditLog" media-type="json" logger="loggerOUT"/>
 
 3.- Use logstash to send the content of audit.log file to elastic search in all the wso2 servers
-		3.1 Install logstash in the wso2 server
-		3.2 Copy the file logstash-audit.conf to the wso2 server and configure it
+    3.1 Install logstash in the wso2 server
+    3.2 Copy the file logstash-audit.conf to the wso2 server and configure it
     3.3 Run logstash 
 		
     ./bin/logstash -f logstash-audit.conf
@@ -29,5 +29,5 @@ Kibana DashBoard for audit logs.
 	  Note: The logstash-audit.conf include the generation of a new param: "businessProcessAudit.duration"
 
 4.- Kibana
-		4.1 Refresh field list in index when audit logs are presents in elasticseach
+    4.1 Refresh field list in index when audit logs are presents in elasticseach
     4.2 Import Dashboard (export-dashboard_audit.json)
