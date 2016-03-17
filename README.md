@@ -6,6 +6,12 @@ BPMN allows us to model a business process using activities, events, etc. We wil
 
 How to use this in our projects in the WSO2 ESB? We can generate the XML by hand in our Sequences, but it's complicated and less than optimal. the ideal would be have a "mediator" in charge of performing this function in the most optimal way possible, this is the Audit Mediator.
 
+<div align="center">
+<img src="https://raw.githubusercontent.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/master/AuditMediator/docs/AuditMediatorGeneral.png" width="80%" height="80%" />
+</div>
+<br/>
+
+
 ## Applications.
 
 * Audit and system logs.
