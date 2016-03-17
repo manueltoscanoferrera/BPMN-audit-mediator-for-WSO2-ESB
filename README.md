@@ -2,7 +2,6 @@
 <div align="center">
 <img src="https://raw.githubusercontent.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/master/AuditMediator/docs/AuditMediatorGeneral.png" width="100%" height="100%" />
 </div>
-<br/>
 Goal is provide a xml/json that collects business process execution, so allow us know if everything went right or wrong?, what activities have taken place?, how long have taken something?, failed?. Giving the possibility to include information that allows us to perform a forensic analysis of the business process or even reactivate it if necessary.
 
 BPMN allows us to model a business process using activities, events, etc. We will not reinvent the wheel, we will use it for inspiration, only need to define something that allows us to collect audit information associated with the types of activities of BPMN. For a task BMPN define a TaskAudit, for a sendTask define a sendTaskAudit, for a subProcess define a subProcessAudit, etc ...
