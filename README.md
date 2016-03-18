@@ -1,11 +1,12 @@
-## Introduction
-Goal is provide a xml/json that collects business process execution, so allow us know if everything went right or wrong?, what activities have taken place?, how long have taken something?, failed?. Giving the possibility to include information that allows us to perform a forensic analysis of the business process or even reactivate it if necessary.
+# Introduction
+
+Goal is provide a xml/json that collects business process execution, so allow us know if everything went right or wrong?, what activities have taken place?, how long have taken something?, what messages have been exchanged, etc. Giving the possibility to include information that allows us to perform a forensic analysis of the business process or even reactivate it if necessary.
+
+How to generate this in our WSO2 ESB projects? We can write the XML by hand within the sequences, but it's complicated and less than optimal. the ideal would be have a "mediator" in charge of performing this function in the most optimal way possible. This is the Mediator Audit. The Audit Mediator introduces new xml tags inspired by BPMN (TaskAudit, reveiveTaskAudit, sendTaskAudit,subProcessAudit, serialize, etc), to be used within the proxies and Sequences, which facilitates the generation of xml audit.
 <div align="center">
 <img src="https://raw.githubusercontent.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/master/AuditMediator/docs/AuditMediatorGeneral.png" width="100%" height="100%" />
 </div>
-BPMN allows us to model a business process using activities, events, etc. We will not reinvent the wheel, we will use it for inspiration, only need to define something that allows us to collect audit information associated with the types of activities of BPMN. For a task BMPN define a TaskAudit, for a sendTask define a sendTaskAudit, for a subProcess define a subProcessAudit, etc ...
 
-How to use this in our projects in the WSO2 ESB? We can generate the XML by hand in our Sequences, but it's complicated and less than optimal. the ideal would be have a "mediator" in charge of performing this function in the most optimal way possible, this is the Audit Mediator.
 
 ## Applications.
 
