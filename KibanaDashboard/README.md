@@ -2,7 +2,7 @@
 ## Kibana Dashboard for BPMN Audit Mediator logs
 <br/>
 <div align="center">
-<img src="https://raw.githubusercontent.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/master/KibanaDashboard/dashboard_audit.png" width="80%" height="80%" />
+<img src="https://raw.githubusercontent.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/master/KibanaDashboard/dashboard_audit.png" width="100%" height="100%" />
 </div>
 <br/>
 
