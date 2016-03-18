@@ -32,6 +32,7 @@ Wiki https://github.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/wi
 ## Examples
 
 ### Business Process Audit XML Example.
+This xml describes in detail the execution of a business process. It is the element that we want to generated easily with the Audit Mediator.
 ```
 <businessProcessAudit xmlns="urn:org:codigolibre:businessprocessaudit:type:v1.0.0">
 			<id>52</id>
@@ -86,6 +87,7 @@ Wiki https://github.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/wi
 
 ```
 ### Business Process Audit JSON Example.
+This JSON describes in detail the execution of a business process. It is the element that we want to generated easily with the Audit Mediator.
 ```
 {  
    "businessProcessAudit":{  
@@ -142,7 +144,8 @@ Wiki https://github.com/manueltoscanoferrera/BPMN-audit-mediator-for-WSO2-ESB/wi
 ```
 
 ### Audit Mediator Example: ESB Proxy with process Audit and Dead Letter Channel EIP
-
+In this example we use the audit mediators commands within a ESB proxy to generate a detailed XML than describe the proxy execution.
+Also shows how to implement the Dead Letter Channel EIP using the Audit Mediator.
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <proxy xmlns="http://ws.apache.org/ns/synapse"
