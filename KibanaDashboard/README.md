@@ -38,5 +38,5 @@ Product versions required: elasticsearch-2.2.0, logstash-2.X, kibana-4.4.1
     Note: The logstash-audit.conf include the generation of a new param: "businessProcessAudit.duration"
 
 4.- Kibana
-    4.1 Refresh field list in index when audit logs are presents in elasticseach
-    4.2 Import Dashboard (export-dashboard_audit.json)
+    4.1- Refresh field list in index when audit logs are presents in elasticseach
+    4.2- Import Dashboard (export-dashboard_audit.json)
