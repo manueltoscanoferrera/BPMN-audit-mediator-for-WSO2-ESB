@@ -7,7 +7,10 @@
 <br/>
 
 
-Product versions required: elasticsearch-2.2.0, logstash-2.X, kibana-4.4.1
+Product versions required: 
+* elasticsearch-2.2.0
+* logstash-2.X
+* kibana-4.4.1
   
 
 1.- Configure a logger in the wso2 Carbon (log4j.properties) in which record the auditMediator serialization
