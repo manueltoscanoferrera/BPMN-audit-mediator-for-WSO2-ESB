@@ -217,8 +217,10 @@ public class BusinessProcessCommand implements Command {
 							.getActivities());
 
 			ActivityBaseCommand commandCascase = null;
-
-			if (activity instanceof SendTaskAudit) {
+			
+			if (activity== null){
+				commandCascase=null;
+			}else if (activity instanceof SendTaskAudit) {
 
 				SendTaskCommand commandCascaseTemp = new SendTaskCommand();
 				
@@ -252,7 +254,7 @@ public class BusinessProcessCommand implements Command {
 							businessProcessAudit.getActivities(),
 							ReceiveTaskAuditType.class.getName());
 
-			if (firstActivityReceive.getEndTime() == null
+			if (firstActivityReceive!=null && firstActivityReceive.getEndTime() == null
 					&& !activity.equals(firstActivityReceive)) {
 
 				ReceiveTaskCommand commandCascaseTemp = new ReceiveTaskCommand();
