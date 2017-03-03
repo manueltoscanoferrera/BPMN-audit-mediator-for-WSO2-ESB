@@ -12,12 +12,12 @@
                <name value="Consulta Demanda Por ID Abreviada"/>
                <description value="Consulta Demanda Por ID Abreviada"/>
             </businessProcess>
-            <receiveTask id="ProxyPruebas" new="true">
+            <receiveTask id="ProxyPruebas">
                <webService>
                   <msgRequest capture="true"/>
                </webService>
             </receiveTask>
-             <sendTask id="callWSConsultaDemandaPorID" new="true">
+             <sendTask id="callWSConsultaDemandaPorID">
                <name value="Consulta Demanda Por ID"/>
                <webService>
                   <endPoint value="gov:/intersae/HermesEP.xml"/>
@@ -30,7 +30,7 @@
       <outSequence>
          <audit>
             <businessProcess closeWithStatus="OK" cascadeClose="true" captureMsg="true"/>
-            <serialize store="audit_store"/>
+            <serialize store="audit_store" detail="medium"/>
          </audit>
          <send/>
       </outSequence>
@@ -41,7 +41,7 @@
          </makefault>
          <audit>
             <businessProcess closeWithStatus="ERROR" cascadeClose="true" captureMsg="true"/>
-            <serialize store="dead_letter_channel" media-type="json"/>
+            <serialize store="dead_letter_channel" media-type="json"  detail="high"/>
          </audit>
          <respond/>
       </faultSequence>

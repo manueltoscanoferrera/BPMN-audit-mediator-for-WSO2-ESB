@@ -52,6 +52,15 @@
 					<xs:documentation>xml(default)|json: output format</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+		     <xs:attribute name="detail" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>low|medium|high(default): Level Detail of the XML generate:
+					low: Only serialize the root BusinessProcessAudit (without activities)
+					medium: Serialize audit without Implementations tags (webService and jmsService)
+					high: Serialize all Audit
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 

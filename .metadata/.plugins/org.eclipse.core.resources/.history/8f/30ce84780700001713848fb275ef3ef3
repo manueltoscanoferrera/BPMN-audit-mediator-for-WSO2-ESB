@@ -1,0 +1,25 @@
+v1.3.0  3/03/2017 
+	New attribute "detail" in serialize command.
+	Bug Resolved -> When a fault secuence is call for a soapfault response,only variables in Operation context
+	                are presented, so the Audit Mediator could not find the audit variable.
+	
+	
+
+
+v1.2.2  24/02/2017 
+	Bug Resolved-> nullpointer when cascadeClose and no receivetask defined.
+
+
+v1.2.1  2/22/2016 
+	Reintegration Start time bug (v1.1.0) patch lost
+
+v1.2.0  2/8/2016 
+	CorrelationID param added to BusinessProcessAudit
+	Context params added to BusinessProcessAudit
+
+v1.1.0  1/18/2016 
+	Start time bug
+	Serializer to Custom Logger
+
+v1.0.0  6/11/2015 
+	First version

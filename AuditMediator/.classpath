@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/main/test/java"/>
-	<classpathentry excluding="**/*.java" kind="src" output="target/test-classes" path="src/main/test/resources"/>
-	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
-	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/main/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**/*.java" including="**/*.java" kind="src" output="target/test-classes" path="src/main/test/resources"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**/*.java" including="**/*.java" kind="src" path="src/main/resources"/>
 	<classpathentry kind="var" path="M2_REPO/javax/servlet/servlet-api/2.3/servlet-api-2.3.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/xml/bind/jaxb-api/2.1/jaxb-api-2.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/org/apache/synapse/synapse-core/2.1.0/synapse-core-2.1.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/synapse/synapse-securevault/2.1.0/synapse-securevault-2.1.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/ws/commons/axiom/axiom-api/1.2.14/axiom-api-1.2.14.jar"/>
@@ -85,10 +99,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/wso2/staxon/staxon-core/1.2.0.wso2v2/staxon-core-1.2.0.wso2v2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/wso2/staxon/staxon/1.2.0-wso2v2/staxon-1.2.0-wso2v2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/1.2.8/spring-core-1.2.8.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-tribes/7.0.8/tomcat-tribes-7.0.8.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-juli/7.0.8/tomcat-juli-7.0.8.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/embed/tomcat-embed-logging-juli/7.0.8/tomcat-embed-logging-juli-7.0.8.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/axis2/axis2-codegen/1.6.1-wso2v1/axis2-codegen-1.6.1-wso2v1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.5.6/slf4j-log4j12-1.5.6.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.6/slf4j-api-1.5.6.jar"/>
 	<classpathentry kind="var" path="M2_REPO/java-cup/java-cup/0.0/java-cup-0.0.jar"/>
@@ -98,5 +108,10 @@
 	<classpathentry kind="var" path="M2_REPO/net/sf/saxon/saxon/8.9/saxon-8.9.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar"/>
 	<classpathentry kind="lib" path="/opt/wso2esb-4.8.1/repository/components/lib/activemq-client-5.10.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

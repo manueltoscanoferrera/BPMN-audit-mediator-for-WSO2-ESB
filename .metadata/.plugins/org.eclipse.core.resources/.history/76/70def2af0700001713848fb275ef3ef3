@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy xmlns="http://ws.apache.org/ns/synapse"
+       name="prueba"
+       transports="https,http"
+       statistics="disable"
+       trace="enable"
+       startOnLoad="true">
+   <target>
+      <inSequence>
+         <audit>
+            <businessProcess id="52">
+               <name value="Consulta Demanda Por ID Abreviada"/>
+               <description value="Consulta Demanda Por ID Abreviada"/>
+            </businessProcess>
+            <receiveTask id="ProxyPruebas" new="true">
+               <webService>
+                  <msgRequest capture="true"/>
+               </webService>
+            </receiveTask>
+             <sendTask id="callWSConsultaDemandaPorID" new="true">
+               <name value="Consulta Demanda Por ID"/>
+               <webService>
+                  <endPoint value="gov:/intersae/HermesEP.xml"/>
+                  <operation value="consultaDemandaPorID"/>
+                  <msgRequest capture="true"/>
+               </webService>
+            </sendTask>
+         </audit>
+      </inSequence>
+      <outSequence>
+         <audit>
+            <businessProcess closeWithStatus="OK" cascadeClose="true" captureMsg="true"/>
+            <serialize store="audit_store"/>
+         </audit>
+         <send/>
+      </outSequence>
+      <faultSequence>
+         <makefault version="soap11">
+            <code xmlns:tns="http://www.w3.org/2003/05/soap-envelope" value="tns:Receiver"/>
+            <reason expression="get-property('ERROR_MESSAGE')"/>
+         </makefault>
+         <audit>
+            <businessProcess closeWithStatus="ERROR" cascadeClose="true" captureMsg="true"/>
+            <serialize store="dead_letter_channel" media-type="json"/>
+         </audit>
+         <respond/>
+      </faultSequence>
+      <endpoint>
+         <address uri="http://usuario-laptop7:8280/services/echo"/>
+      </endpoint>
+   </target>
+   <publishWSDL uri="http://usuario-laptop7:8280/services/echo?wsdl"/>
+   <enableSec/>
+   <policy key="conf:/repository/axis2/service-groups/prueba/services/prueba/policies/UTOverTransport"/>
+   <description/>
+</proxy>
+                                

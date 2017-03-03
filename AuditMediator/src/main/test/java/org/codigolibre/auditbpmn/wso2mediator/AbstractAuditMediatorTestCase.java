@@ -5,13 +5,18 @@ import java.io.StringReader;
 import java.net.InetAddress;
 import java.util.Properties;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
 import org.apache.axiom.om.util.AXIOMUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.synapse.Mediator;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.config.SynapseConfigUtils;
 import org.apache.synapse.mediators.TestUtils;
+import org.codigolibre.auditbpmn.jaxb.BusinessProcessAudit;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Validator;
 import org.custommonkey.xmlunit.XMLTestCase;
@@ -138,6 +143,28 @@ public abstract class AbstractAuditMediatorTestCase extends XMLTestCase {
 		return serializationXML;
 	}
 	
+
 	
+	public  MessageContext setBusinessProcessAuditObject(String businessProcessAuditXML) throws Exception {
+		beforeClass();
+
+
+		JAXBContext jaxbContext = JAXBContext
+				.newInstance(BusinessProcessAudit.class);
+
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		BusinessProcessAudit busines = (BusinessProcessAudit) jaxbUnmarshaller
+				.unmarshal(IOUtils.toInputStream(businessProcessAuditXML));
+		
+		
+		MessageContext synCtx = TestUtils
+				.createLightweightSynapseMessageContext("<empty/>");
+		
+		synCtx
+				.setProperty(AuditMediatorUtils.AUDIT_MEDIATOR_CONTEXT_PROPERTY,busines);
+		return synCtx;
+		
+
+	}
 
 }

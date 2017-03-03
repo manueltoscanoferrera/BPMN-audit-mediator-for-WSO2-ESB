@@ -53,10 +53,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "outputParams"
 })
 @XmlSeeAlso({
-    SendTaskAudit.class,
     ReceiveTaskAuditType.class,
-    SubProcessAuditType.class,
-    TaskAuditType.class
+    TaskAuditType.class,
+    SendTaskAudit.class,
+    SubProcessAuditType.class
 })
 public class ActivityTypeAudit {
 

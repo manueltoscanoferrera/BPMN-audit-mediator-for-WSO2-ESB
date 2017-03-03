@@ -1,0 +1,315 @@
+import java.io.StringWriter;
+import java.lang.reflect.Method;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.util.JAXBSource;
+import javax.xml.stream.XMLStreamWriter;
+
+import org.apache.axiom.om.OMAbstractFactory;
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMFactory;
+import org.apache.axiom.om.ds.jaxb.JAXBOMDataSource;
+import org.apache.commons.io.IOUtils;
+import org.codehaus.jettison.mapped.Configuration;
+import org.codehaus.jettison.mapped.MappedNamespaceConvention;
+import org.codehaus.jettison.mapped.MappedXMLStreamWriter;
+import org.codigolibre.auditbpmn.jaxb.ActivityTypeAudit;
+import org.codigolibre.auditbpmn.jaxb.BusinessProcessAudit;
+import org.codigolibre.auditbpmn.jaxb.ObjectFactory;
+import org.codigolibre.auditbpmn.jaxb.ReceiveTaskAuditType;
+import org.codigolibre.auditbpmn.jaxb.SendTaskAudit;
+import org.codigolibre.auditbpmn.jaxb.SubProcessAuditType;
+import org.codigolibre.auditbpmn.jaxb.TaskAuditType;
+import org.codigolibre.auditbpmn.wso2mediator.AuditMediatorUtils;
+import org.codigolibre.auditbpmn.wso2mediator.AuditMediatorUtils.DETAIL_LEVEL;
+import org.xml.sax.InputSource;
+
+public class Pruebas {
+
+	private Object findObjectByID(String id, String className,
+			BusinessProcessAudit businessProcessAudit) {
+
+		try {
+			if (id == null || businessProcessAudit.getActivities() == null)
+				return null;
+
+			for (Iterator iterator = businessProcessAudit.getActivities()
+					.iterator(); iterator.hasNext();) {
+
+				Object activity = iterator.next();
+				Method method = activity.getClass().getMethod("getId", null);
+				if (method != null) {
+					String idObject = (String) method.invoke(activity, null);
+					if (idObject.equalsIgnoreCase(id)) {
+						return activity;
+					}
+				}
+
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			System.out.println("Error " + e.getMessage());
+			return null;
+		}
+		return null;
+	}
+
+	public static void main(String args[]) {
+
+		try {
+			ObjectFactory objF = new ObjectFactory();
+
+			// BusinessProcessAudit busines = objF.createBusinessProcessAudit();
+
+			/*
+			 * SendTaskAudit sendTask = objF.createSendTaskAudit();
+			 * sendTask.setId("2");
+			 * 
+			 * 
+			 * 
+			 * busines.getActivities().add(objF.createSendTaskAudit(sendTask));
+			 */
+
+			String xml = "<businessProcessAudit xmlns=\"urn:org:codigolibre:businessprocessaudit:type:v1.0.0\"><id>SincronizacionAnuncios</id><name>Sincronizacion Anuncios OVESAE</name><correlationID>2124cf6b-470d-4e87-b226-2586b4c0cb26</correlationID><startTime>2017-03-03T09:46:00.024+01:00</startTime><endTime>2017-03-03T09:46:01.635+01:00</endTime><status>OK</status><activities><subProcessAudit><id>crearAnuncios</id><name>Crear Anuncios</name><startTime>2017-03-03T09:46:00.258+01:00</startTime><endTime>2017-03-03T09:46:00.798+01:00</endTime><status>OK</status><activities><sendTaskAudit><id>consultaAnunciosPendientes</id><name>Consulta Anuncios Pendientes</name><startTime>2017-03-03T09:46:00.303+01:00</startTime><endTime>2017-03-03T09:46:00.717+01:00</endTime><status>OK</status><inputParams><param name=\"numeroAnuncios\">0.0</param></inputParams><webServiceAudit><endPoint>gov:/intersaeEndpoints/SincronizacionAnunciosDSEP</endPoint><operation>SincronizacionCrearAnunciosDesdeTemporal</operation><type>SOAP</type><idMsg>urn:uuid:a6f97db3-49d5-4afd-8b9e-54cace72a1b8</idMsg><msgRequest>&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;soapenv:Envelope xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"&gt;&lt;soapenv:Body&gt;&lt;SincronizacionCrearAnunciosDesdeTemporal xmlns=\"urn:juntadeandalucia:ceice:intersae:sincronizacioncrearanuncios:type:v1.0.0\"/&gt;&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</msgRequest><msgResponse>&lt;soapenv:Body xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"&gt;&lt;SincronizacionCrearAnunciosTemporal xmlns=\"urn:juntadeandalucia:ceice:intersae:sincronizacioncrearanuncios:type:v1.0.0\"/&gt;&lt;/soapenv:Body&gt;</msgResponse><ipClient>10.240.234.53</ipClient><hostClient>dessae03</hostClient><ipServer>10.240.234.203</ipServer><hostServer>dssdes.sae.junta-andalucia.es</hostServer></webServiceAudit></sendTaskAudit></activities></subProcessAudit><subProcessAudit><id>primerCandidato</id><name>Primer Candidato</name><startTime>2017-03-03T09:46:00.904+01:00</startTime><endTime>2017-03-03T09:46:01.091+01:00</endTime><status>OK</status><activities><sendTaskAudit><id>consultaPrimerCandidatoDesdeTemporal</id><name>Consulta Primer Candidato Desde BD</name><startTime>2017-03-03T09:46:00.956+01:00</startTime><endTime>2017-03-03T09:46:01.036+01:00</endTime><status>OK</status><inputParams><param name=\"numeroCandidatos\">0.0</param></inputParams><webServiceAudit><endPoint>gov:/intersaeEndpoints/SincronizacionAnunciosDSEPP</endPoint><operation>SincronizacionPrimerCandidatoDesdeTemporal</operation><type>SOAP</type><idMsg>urn:uuid:7efc0bce-5261-47e5-8805-a34e889de7df</idMsg><msgRequest>&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;soapenv:Envelope xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"&gt;&lt;soapenv:Body&gt;&lt;p:SincronizacionPrimerCandidatoDesdeTemporal xmlns:p=\"es.juntadeandalucia.ceice.intersae.sincronizacionanuncios\"/&gt;&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</msgRequest><msgResponse>&lt;soapenv:Body xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"&gt;&lt;SincronizacionPrimerCandidatoAnuncios xmlns=\"urn:juntadeandalucia:ceice:intersae:sincronizacionprimercandidatoanuncios:type:v1.0.0\"/&gt;&lt;/soapenv:Body&gt;</msgResponse><ipClient>10.240.234.53</ipClient><hostClient>dessae03</hostClient><ipServer>10.240.234.203</ipServer><hostServer>dssdes.sae.junta-andalucia.es</hostServer></webServiceAudit></sendTaskAudit></activities></subProcessAudit><subProcessAudit><id>enviarCandidatos</id><name>Enviar Candidatos</name><startTime>2017-03-03T09:46:01.143+01:00</startTime><endTime>2017-03-03T09:46:01.337+01:00</endTime><status>OK</status><activities><taskAudit><id>busquedaCodigosAnunciosPendientes</id><name>Búsqueda Codigos Anuncios Pendientes</name><startTime>2017-03-03T09:46:01.211+01:00</startTime><endTime>2017-03-03T09:46:01.269+01:00</endTime><status>OK</status><inputParams><param name=\"codigosAnuncios\"/></inputParams></taskAudit></activities></subProcessAudit><subProcessAudit><id>cerrarAnuncios</id><name>Cerrar Anuncios</name><startTime>2017-03-03T09:46:01.392+01:00</startTime><endTime>2017-03-03T09:46:01.577+01:00</endTime><status>OK</status><activities><sendTaskAudit><id>busquedaCerrarAnunciosPendientes</id><name>Busqueda Cerrar Anuncios Pendientes</name><startTime>2017-03-03T09:46:01.441+01:00</startTime><endTime>2017-03-03T09:46:01.520+01:00</endTime><status>OK</status><inputParams><param name=\"numeroAnuncios\">0.0</param></inputParams><webServiceAudit><endPoint>gov:/intersaeEndpoints/SincronizacionAnunciosDSEP</endPoint><operation>SincronizacionCerrarAnunciosDesdeTemporal</operation><type>SOAP</type><idMsg>urn:uuid:b1368498-33aa-42a1-b80f-20b2032eb423</idMsg><msgRequest>&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;soapenv:Envelope xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"&gt;&lt;soapenv:Body&gt;&lt;p:SincronizacionCerrarAnunciosDesdeTemporal xmlns:p=\"es.juntadeandalucia.ceice.intersae.sincronizacionanuncios\"/&gt;&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</msgRequest><msgResponse>&lt;soapenv:Body xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"&gt;&lt;SincronizacionCerrarAnuncios xmlns=\"urn:juntadeandalucia:ceice:intersae:sincronizacioncerraranuncios:type:v1.0.0\"/&gt;&lt;/soapenv:Body&gt;</msgResponse><ipClient>10.240.234.53</ipClient><hostClient>dessae03</hostClient><ipServer>10.240.234.203</ipServer><hostServer>dssdes.sae.junta-andalucia.es</hostServer></webServiceAudit></sendTaskAudit></activities></subProcessAudit></activities></businessProcessAudit>";
+
+			JAXBContext jaxbContext = JAXBContext
+					.newInstance(BusinessProcessAudit.class);
+
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			BusinessProcessAudit busines = (BusinessProcessAudit) jaxbUnmarshaller
+					.unmarshal(IOUtils.toInputStream(xml));
+
+			// System.out.println(customer);
+
+			/*
+			 * 
+			 * TaskAuditType task = objF.createTaskAuditType();
+			 * task.setId("dd");
+			 * busines.getActivities().add(objF.createTaskAudit(task));
+			 * 
+			 * 
+			 * System.out.println("tipo " +
+			 * busines.getActivities().get(0).getDeclaredType());
+			 * 
+			 * if (busines.getActivities().get(0).getValue() instanceof
+			 * SendTaskAudit){ SendTaskAudit send2 = (SendTaskAudit)
+			 * busines.getActivities().get(0).getValue();
+			 * 
+			 * System.out.println("Pillada " + send2.getId());
+			 * 
+			 * }
+			 */
+
+			BusinessProcessAudit businesCloneLow = convertir(busines, "low");
+			
+			
+			BusinessProcessAudit businesCloneMedium = convertir(busines, "medium");
+			
+			
+			BusinessProcessAudit businesCloneHigh = convertir(busines, "high");
+			
+			
+
+			// clonación del objeto
+			/*
+			 * JAXBContext sourceJAXBContext =
+			 * JAXBContext.newInstance(BusinessProcessAudit.class); JAXBContext
+			 * targetJAXBContext =
+			 * JAXBContext.newInstance(BusinessProcessAudit.class);
+			 * 
+			 * BusinessProcessAudit businesClone= (BusinessProcessAudit)
+			 * targetJAXBContext.createUnmarshaller().unmarshal( new
+			 * JAXBSource(sourceJAXBContext,busines));
+			 */
+
+			// JAXB to OMElement
+
+			JAXBContext context = JAXBContext
+					.newInstance(BusinessProcessAudit.class);
+
+			OMFactory factory = OMAbstractFactory.getOMFactory();
+			OMElement element = factory.createOMElement(new JAXBOMDataSource(
+					context, busines));
+
+			System.out.println(" jaxb to element to string       "
+					+ element.toString());
+
+			OMElement elementCloneLow = factory
+					.createOMElement(new JAXBOMDataSource(context, businesCloneLow));
+
+			System.out.println(" jaxb to element LOW to string "
+					+ elementCloneLow.toString());
+
+			
+			OMElement elementCloneMedium = factory
+					.createOMElement(new JAXBOMDataSource(context, businesCloneMedium));
+
+			System.out.println(" jaxb to element MEDIUM to string "
+					+ elementCloneMedium.toString());
+			
+			
+			OMElement elementCloneHigh = factory
+					.createOMElement(new JAXBOMDataSource(context, businesCloneHigh));
+
+			System.out.println(" jaxb to element HIGH to string "
+					+ elementCloneHigh.toString());
+			
+			
+			
+			
+			
+			// JAXB to JSON
+			Configuration config = new Configuration();
+			config.setIgnoreNamespaces(true);
+
+			MappedNamespaceConvention con = new MappedNamespaceConvention(
+					config);
+			StringWriter writer = new StringWriter();
+			XMLStreamWriter xmlStreamWriter = new MappedXMLStreamWriter(con,
+					writer);
+
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.marshal(busines, xmlStreamWriter);
+
+			System.out.println(" json " + writer.toString());
+			/*
+			 * DocumentBean bean = (DocumentBean)JAXBUtils.unmarshal(context,
+			 * element, true); assertEquals(orgBean.getId(), bean.getId());
+			 * assertEquals(orgBean.getContent(), bean.getContent());
+			 */
+
+			// JAXB to XMl
+			// JAXBContext jaxbContext;
+
+			jaxbContext = JAXBContext.newInstance(BusinessProcessAudit.class);
+
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+			StringWriter stringTransaccion = new StringWriter();
+			ObjectFactory fac = new ObjectFactory();
+
+			jaxbMarshaller.marshal(busines, stringTransaccion);
+
+			System.out
+					.println("busines creada " + stringTransaccion.toString());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		/**
+		 * System.out.println(new Integer("10").toString());
+		 * 
+		 * System.out.println(((Object)new Integer("10")).toString());
+		 * System.out.println(((Object)"10").toString());
+		 * 
+		 * System.out.println(((Object)new Integer("10")).toString());
+		 * 
+		 * System.out.println("true " + Boolean.TRUE.toString());
+		 * System.out.println("false " + Boolean.FALSE.toString());
+		 * 
+		 * System.out.println(" " +
+		 * AuditMediatorUtils.TIPO_TRANSACCION.PROXY.isEquals("PROXY"));
+		 * 
+		 * System.out.println("comillas " + StringUtils.isBlank(""));
+		 * System.out.println("null " + StringUtils.isBlank(null));
+		 * System.out.println(" espacios " + StringUtils.isBlank("  "));
+		 * System.out.println("a " + StringUtils.isBlank("a"));
+		 * 
+		 * JAXBContext jaxbContext; try { jaxbContext =
+		 * JAXBContext.newInstance(Transaccion.class);
+		 * 
+		 * Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+		 * 
+		 * StringWriter stringTransaccion = new StringWriter(); ObjectFactory
+		 * fac = new ObjectFactory();
+		 * 
+		 * Transaccion transaccionBase = fac.createTransaccion();
+		 * transaccionBase.setDetalleTransaccion(fac
+		 * .createTransaccionDetalleTransaccion());
+		 * transaccionBase.getDetalleTransaccion().setDetalleTransaccionProxy(
+		 * fac.createDetalleTransaccionProxyType());
+		 * 
+		 * jaxbMarshaller.marshal(transaccionBase, stringTransaccion);
+		 * 
+		 * System.out.println("Transaccion creada " +
+		 * stringTransaccion.toString());
+		 * 
+		 * } catch (Exception e) {
+		 * 
+		 * e.printStackTrace(); }
+		 **/
+	}
+
+	public static BusinessProcessAudit convertir(BusinessProcessAudit busines,
+			String detail) throws JAXBException {
+		return convertir(busines, DETAIL_LEVEL.valueOf(detail.toUpperCase()));
+	}
+
+	public static BusinessProcessAudit convertir(BusinessProcessAudit busines,
+			AuditMediatorUtils.DETAIL_LEVEL detail) throws JAXBException {
+
+		// Object clone
+
+		JAXBContext sourceJAXBContext = JAXBContext
+				.newInstance(BusinessProcessAudit.class);
+		JAXBContext targetJAXBContext = JAXBContext
+				.newInstance(BusinessProcessAudit.class);
+
+		BusinessProcessAudit businesClone = (BusinessProcessAudit) targetJAXBContext
+				.createUnmarshaller().unmarshal(
+						new JAXBSource(sourceJAXBContext, busines));
+
+		switch (detail) {
+		case LOW:
+			businesClone.setActivities(null);
+			break;
+
+		case MEDIUM: 
+			removerImplementationServiceElements(businesClone.getActivities());
+			break;
+		  case HIGH:
+
+			break;
+
+		default:
+			break;
+		}
+
+		return businesClone;
+
+	}
+
+	private static void removerImplementationServiceElements(List<JAXBElement<?>>  listactivities) {
+		
+		for (Iterator iterator = listactivities.iterator(); iterator.hasNext();) {
+
+			
+			  Object element = ((JAXBElement<?>) iterator.next()).getValue();
+
+			if (element instanceof SendTaskAudit) {
+
+				((SendTaskAudit) element).setImplementationServiceAudit(null);
+
+			} else if (element instanceof ReceiveTaskAuditType) {
+
+				((ReceiveTaskAuditType) element)
+						.setImplementationServiceAudit(null);
+
+			} else if (element instanceof SubProcessAuditType) {
+
+				removerImplementationServiceElements(((SubProcessAuditType) element)
+						.getActivities());
+			}
+
+		}
+	}
+}

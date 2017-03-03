@@ -1,8 +1,13 @@
 package org.codigolibre.auditbpmn.wso2mediator;
 
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.util.JAXBSource;
 import javax.xml.namespace.QName;
 
 import org.apache.axiom.om.OMAbstractFactory;
@@ -13,6 +18,9 @@ import org.apache.synapse.config.xml.ValueSerializer;
 import org.apache.synapse.config.xml.XMLConfigConstants;
 import org.apache.synapse.mediators.Value;
 import org.codigolibre.auditbpmn.jaxb.ActivityTypeAudit;
+import org.codigolibre.auditbpmn.jaxb.BusinessProcessAudit;
+import org.codigolibre.auditbpmn.jaxb.ReceiveTaskAuditType;
+import org.codigolibre.auditbpmn.jaxb.SendTaskAudit;
 import org.codigolibre.auditbpmn.jaxb.SubProcessAuditType;
 
 public class AuditMediatorUtils {
@@ -137,7 +145,10 @@ public class AuditMediatorUtils {
 	public static final String LOGGER_NAME_ATT_NAME = "logger";
 	public static final QName LOGGER_NAME_QNAME = new QName(
 			XMLConfigConstants.NULL_NAMESPACE, LOGGER_NAME_ATT_NAME);
-
+	
+	public static final String DETAIL_NAME_ATT_NAME = "detail";
+	public static final QName DETAIL_NAME_QNAME = new QName(
+			XMLConfigConstants.NULL_NAMESPACE, DETAIL_NAME_ATT_NAME);
 	
 	// Error tags
 	public static final String ERROR_CODE_TAG_NAME = "errorCode";
@@ -159,7 +170,12 @@ public class AuditMediatorUtils {
 	public static final String IN_PROGRESS_STATUS = "UNSPECIFIED";
 	public static final String OK_STATUS = "OK";
 	public static final String ERROR_STATUS = "ERROR";
-
+	
+	
+	// types of details levels for serialization
+	public static enum DETAIL_LEVEL {LOW, MEDIUM,HIGH};  //Cuando terminamos cerramos con ;
+	 
+	
 	// null Namespace
 	public static final org.apache.axiom.om.OMNamespace nullNS = OMAbstractFactory
 			.getOMFactory().createOMNamespace("", "");
@@ -500,4 +516,72 @@ public class AuditMediatorUtils {
 
 	}
 
+	
+	
+
+	public static BusinessProcessAudit getBusinessProcessWithDetailLevel(BusinessProcessAudit busines,
+			String detailLevel) throws JAXBException {
+		return getBusinessProcessWithDetailLevel(busines, DETAIL_LEVEL.valueOf(detailLevel.toUpperCase()));
+	}
+
+	public static BusinessProcessAudit getBusinessProcessWithDetailLevel(BusinessProcessAudit busines,
+			AuditMediatorUtils.DETAIL_LEVEL detail) throws JAXBException {
+
+		// Object clone
+
+		JAXBContext sourceJAXBContext = JAXBContext
+				.newInstance(BusinessProcessAudit.class);
+		JAXBContext targetJAXBContext = JAXBContext
+				.newInstance(BusinessProcessAudit.class);
+
+		BusinessProcessAudit businesClone = (BusinessProcessAudit) targetJAXBContext
+				.createUnmarshaller().unmarshal(
+						new JAXBSource(sourceJAXBContext, busines));
+
+		switch (detail) {
+		case LOW:
+			businesClone.setActivities(null);
+			break;
+
+		case MEDIUM: 
+			removerImplementationServiceElements(businesClone.getActivities());
+			break;
+		  case HIGH:
+
+			break;
+
+		default:
+			break;
+		}
+
+		return businesClone;
+
+	}
+
+	private static void removerImplementationServiceElements(List<JAXBElement<?>>  listactivities) {
+		
+		for (Iterator iterator = listactivities.iterator(); iterator.hasNext();) {
+
+			
+			  Object element = ((JAXBElement<?>) iterator.next()).getValue();
+
+			if (element instanceof SendTaskAudit) {
+
+				((SendTaskAudit) element).setImplementationServiceAudit(null);
+
+			} else if (element instanceof ReceiveTaskAuditType) {
+
+				((ReceiveTaskAuditType) element)
+						.setImplementationServiceAudit(null);
+
+			} else if (element instanceof SubProcessAuditType) {
+
+				removerImplementationServiceElements(((SubProcessAuditType) element)
+						.getActivities());
+			}
+
+		}
+	}
+	
+	
 }

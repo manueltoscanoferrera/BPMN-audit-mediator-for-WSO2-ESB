@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="SerializeTestCase" project="AuditMediator" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="org.codigolibre.auditbpmn.wso2mediator.SerializeTestCase" time="0.991">
+    <testcase name="testLOGGER" classname="org.codigolibre.auditbpmn.wso2mediator.SerializeTestCase" time="0.541"/>
+    <testcase name="testDetailLevels" classname="org.codigolibre.auditbpmn.wso2mediator.SerializeTestCase" time="0.106"/>
+    <testcase name="testXMLSerializeInsideVariable" classname="org.codigolibre.auditbpmn.wso2mediator.SerializeTestCase" time="0.341"/>
+    <testcase name="testVariable" classname="org.codigolibre.auditbpmn.wso2mediator.SerializeTestCase" time="0.002"/>
+  </testsuite>
+</testrun>

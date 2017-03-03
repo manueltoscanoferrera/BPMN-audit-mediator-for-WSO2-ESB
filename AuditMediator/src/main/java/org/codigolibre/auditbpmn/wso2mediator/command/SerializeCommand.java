@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.util.JAXBSource;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.axiom.om.OMAbstractFactory;
@@ -36,12 +37,13 @@ public class SerializeCommand implements Command {
 	private String storeName;
 	private String mediaType;
 	private String loggerName;
-	private Log logger; //logger to out the serializa
-	
+	private String detail;
+
+	private Log logger; // logger to out the serializa
+
 	// we re-use the WSO2 MessageStoreMediator to perform the store in JMS
 	private MessageStoreMediator storeMediator;
 
-	
 	private static JAXBContext initContext() {
 		try {
 			return JAXBContext.newInstance(BusinessProcessAudit.class);
@@ -60,28 +62,40 @@ public class SerializeCommand implements Command {
 		}
 		try {
 
-			String stringBusiness = null;
 			
-			if (StringUtils.isNotBlank(mediaType) &&  mediaType.equalsIgnoreCase(AuditMediatorUtils.JSON_TYPE)){
-					
-				// JAXB to JSON String              
-	              Configuration config = new Configuration();
-	              config.setIgnoreNamespaces(true);
- 
-	              MappedNamespaceConvention con = new MappedNamespaceConvention(config);
-	      		  StringWriter writer = new StringWriter();
-	              XMLStreamWriter xmlStreamWriter = new MappedXMLStreamWriter(con, writer);
-	       
-	              Marshaller marshaller = jaxbContext.createMarshaller();
-	              marshaller.marshal(businessProcessAudit, xmlStreamWriter);
-	              
-	              stringBusiness = writer.toString();
-		              
-			}else {
+			if (detail != null) {
+				
+				businessProcessAudit = AuditMediatorUtils
+						.getBusinessProcessWithDetailLevel(
+								businessProcessAudit, detail);
+			}
+			
+			String stringBusiness = null;
+
+			if (StringUtils.isNotBlank(mediaType)
+					&& mediaType.equalsIgnoreCase(AuditMediatorUtils.JSON_TYPE)) {
+
+				// JAXB to JSON String
+				Configuration config = new Configuration();
+				config.setIgnoreNamespaces(true);
+
+				MappedNamespaceConvention con = new MappedNamespaceConvention(
+						config);
+				StringWriter writer = new StringWriter();
+				XMLStreamWriter xmlStreamWriter = new MappedXMLStreamWriter(
+						con, writer);
+
+				Marshaller marshaller = jaxbContext.createMarshaller();
+				marshaller.marshal(businessProcessAudit, xmlStreamWriter);
+
+				stringBusiness = writer.toString();
+
+			} else {
 				// JAXB to XML String
 				StringWriter stringWriter = new StringWriter();
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-				jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT,
+						Boolean.TRUE);
 				jaxbMarshaller.marshal(businessProcessAudit, stringWriter);
 				stringBusiness = stringWriter.toString();
 			}
@@ -91,7 +105,7 @@ public class SerializeCommand implements Command {
 			}
 
 			if (target != null) {
-					synCtx.setProperty(target, stringBusiness.toString());
+				synCtx.setProperty(target, stringBusiness.toString());
 			}
 			// target and store allowed both simultaneously
 			if (storeName != null) {
@@ -99,40 +113,37 @@ public class SerializeCommand implements Command {
 
 					MessageContext ms = synCtx.getEnvironment()
 							.createMessageContext();
-					ms.setConfiguration(synCtx.getConfiguration()); // necessary to find the store inside StoreMediator. 
+					ms.setConfiguration(synCtx.getConfiguration()); // necessary
+																	// to find
+																	// the store
+																	// inside
+																	// StoreMediator.
 
 					// no other way if we use StoreMediator
-					
-					ms.setEnvelope(OMAbstractFactory.getSOAP11Factory()
-								.getDefaultEnvelope());
-					ms.getEnvelope()
-								.getBody().setText(stringBusiness);
 
-				
-					if (storeMediator != null){
+					ms.setEnvelope(OMAbstractFactory.getSOAP11Factory()
+							.getDefaultEnvelope());
+					ms.getEnvelope().getBody().setText(stringBusiness);
+
+					if (storeMediator != null) {
 						storeMediator.mediate(ms);
-					}
-					else
-					{
+					} else {
 						log.error("ERROR storeMediator is null, no storing ");
 					}
 
 				} catch (Exception e) {
-					log.error("Error storing inside the store: "
-							+ storeName + " " + e.getMessage(), e);
+					log.error("Error storing inside the store: " + storeName
+							+ " " + e.getMessage(), e);
 
 				}
 			}
 			if (logger != null) {
-	
-			    logger.info(stringBusiness.toString());
+
+				logger.info(stringBusiness.toString());
 			}
 
-
 		} catch (Exception e) {
-			log.error(
-					"Error in Serialize Command "
-							+ e.getMessage(), e);
+			log.error("Error in Serialize Command " + e.getMessage(), e);
 
 		}
 
@@ -150,12 +161,15 @@ public class SerializeCommand implements Command {
 
 		OMAttribute storeAtributo = element
 				.getAttribute(AuditMediatorUtils.STORE_ATT_QNAME);
-		
+
 		OMAttribute mediaTypeAttribute = element
 				.getAttribute(AuditMediatorUtils.MEDIA_TYPE_ATT_QNAME);
-		
+
 		OMAttribute loggerAttribute = element
 				.getAttribute(AuditMediatorUtils.LOGGER_NAME_QNAME);
+
+		OMAttribute detailAttribute = element
+				.getAttribute(AuditMediatorUtils.DETAIL_NAME_QNAME);
 
 		if (destinoAtributo != null) {
 			target = destinoAtributo.getAttributeValue();
@@ -176,12 +190,13 @@ public class SerializeCommand implements Command {
 			}
 
 		}
-		
+
 		if (mediaTypeAttribute != null) {
 			mediaType = mediaTypeAttribute.getAttributeValue();
 
 			if (log.isDebugEnabled() || log.isTraceEnabled()) {
-				log.debug(AuditMediatorUtils.MEDIA_TYPE_ATT_QNAME + " " + mediaType);
+				log.debug(AuditMediatorUtils.MEDIA_TYPE_ATT_QNAME + " "
+						+ mediaType);
 			}
 
 		}
@@ -191,11 +206,21 @@ public class SerializeCommand implements Command {
 			logger = LogFactory.getLog(loggerName);
 
 			if (log.isDebugEnabled() || log.isTraceEnabled()) {
-				log.debug(AuditMediatorUtils.LOGGER_NAME_QNAME + " " + loggerAttribute.getAttributeValue());
+				log.debug(AuditMediatorUtils.LOGGER_NAME_QNAME + " "
+						+ loggerAttribute.getAttributeValue());
 			}
 
 		}
-		
+
+		if (detailAttribute != null) {
+			detail = detailAttribute.getAttributeValue();
+
+			if (log.isDebugEnabled() || log.isTraceEnabled()) {
+				log.debug(AuditMediatorUtils.DETAIL_NAME_QNAME + " "
+						+ detailAttribute.getAttributeValue());
+			}
+
+		}
 
 	}
 
@@ -225,21 +250,26 @@ public class SerializeCommand implements Command {
 					AuditMediatorUtils.STORE_ATT_NAME,
 					AuditMediatorUtils.nullNS, storeName));
 		}
-		
+
 		if (mediaType != null) {
 			root.addAttribute(fac.createOMAttribute(
 					AuditMediatorUtils.MEDIA_TYPE_ATT_NAME,
 					AuditMediatorUtils.nullNS, mediaType));
 		}
-		
+
 		if (loggerName != null) {
 			root.addAttribute(fac.createOMAttribute(
 					AuditMediatorUtils.LOGGER_NAME_ATT_NAME,
 					AuditMediatorUtils.nullNS, loggerName));
 		}
 
+		if (detail != null) {
+			root.addAttribute(fac.createOMAttribute(
+					AuditMediatorUtils.DETAIL_NAME_ATT_NAME,
+					AuditMediatorUtils.nullNS, detail));
+		}
+
 		return root;
 	}
 
-	
 }

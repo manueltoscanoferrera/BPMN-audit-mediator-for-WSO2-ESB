@@ -20,6 +20,7 @@ import org.apache.synapse.mediators.AbstractMediator;
 import org.codigolibre.auditbpmn.jaxb.BusinessProcessAudit;
 import org.codigolibre.auditbpmn.jaxb.ObjectFactory;
 import org.codigolibre.auditbpmn.wso2mediator.command.Command;
+import org.apache.synapse.core.axis2.Axis2MessageContext;
 
 public class AuditMediator extends AbstractMediator implements ManagedLifecycle {
 
@@ -59,10 +60,55 @@ public class AuditMediator extends AbstractMediator implements ManagedLifecycle 
 				.getProperty(AuditMediatorUtils.AUDIT_MEDIATOR_CONTEXT_PROPERTY);
 
 		if (businessProcessAudit == null) {
-			businessProcessAudit = objF.createBusinessProcessAudit();
-			synCtx.setProperty(
-					AuditMediatorUtils.AUDIT_MEDIATOR_CONTEXT_PROPERTY,
-					businessProcessAudit);
+
+			if (synLog.isTraceOrDebugEnabled()) {
+				synLog.traceOrDebug("AuditMediator message context Jaxb Audit variable NOT FOUND... looking in operation");
+			}
+			// when a soapfault is captured with a faultsequence only variables
+			// in operation context are available, so
+			// we should put a pointer to the Jaxb Audit object in the operation
+			// context for this cases.
+
+			// looking inside operation context
+
+			Axis2MessageContext axis2smc = (Axis2MessageContext) synCtx;
+			org.apache.axis2.context.MessageContext axis2MessageCtx = axis2smc
+					.getAxis2MessageContext();
+
+			businessProcessAudit = (BusinessProcessAudit) axis2smc
+					.getAxis2MessageContext()
+					.getOperationContext()
+					.getProperty(
+							AuditMediatorUtils.AUDIT_MEDIATOR_CONTEXT_PROPERTY);
+
+			if (businessProcessAudit == null) {
+				if (synLog.isTraceOrDebugEnabled()) {
+					synLog.traceOrDebug("AuditMediator message context Jaxb Audit variable NOT FOUND... Creating new");
+				}
+
+				businessProcessAudit = objF.createBusinessProcessAudit();
+				synCtx.setProperty(
+						AuditMediatorUtils.AUDIT_MEDIATOR_CONTEXT_PROPERTY,
+						businessProcessAudit);
+				
+				axis2smc.getAxis2MessageContext()
+						.getOperationContext()
+						.setProperty(
+								AuditMediatorUtils.AUDIT_MEDIATOR_CONTEXT_PROPERTY,
+								businessProcessAudit);
+
+			} else {
+
+				if (synLog.isTraceOrDebugEnabled()) {
+					synLog.traceOrDebug("AuditMediator message context Jaxb Audit variable FOUND in operation");
+				}
+
+			}
+		} else {
+
+			if (synLog.isTraceOrDebugEnabled()) {
+				synLog.traceOrDebug("AuditMediator message context Jaxb Audit variable FOUND");
+			}
 		}
 
 		// executing the audit commands
@@ -71,7 +117,8 @@ public class AuditMediator extends AbstractMediator implements ManagedLifecycle 
 			iterator.next().execute(businessProcessAudit, synCtx);
 		}
 
-		if (synLog.isTraceOrDebugEnabled()) {// print the current Business Process Audit
+		if (synLog.isTraceOrDebugEnabled()) {// print the current Business
+												// Process Audit
 			JAXBContext jaxbContext;
 			try {
 				jaxbContext = JAXBContext
