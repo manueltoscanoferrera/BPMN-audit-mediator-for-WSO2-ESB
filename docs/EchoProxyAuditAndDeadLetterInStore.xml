@@ -31,7 +31,7 @@
             <businessProcess closeWithStatus="OK" cascadeClose="true" captureMsg="true">
                <status value="OK"/>
             </businessProcess>
-            <serialize store="audit_store" media-type="xml"/>
+            <serialize store="audit_store" media-type="xml" detail="medium"/>
          </audit>                                          
         <send/>
       </outSequence>
