@@ -31,7 +31,7 @@
             <businessProcess closeWithStatus="OK" cascadeClose="true" captureMsg="true">
                <status value="OK"/>
             </businessProcess>
-            <serialize target="auditLog" media-type="xml"/>
+            <serialize target="auditLog" media-type="xml" detail="medium"/>
          </audit>                                          
          <log level="custom">
             <property name="audit" expression="$ctx:auditLog"/>
